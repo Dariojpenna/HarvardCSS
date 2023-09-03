@@ -1,0 +1,54 @@
+footer, nav{
+    background: rgb(196,215,246);
+    background: linear-gradient(90deg, rgba(196,215,246,1) 43%, rgba(51,130,203,1) 100%);
+
+}
+
+a{
+    color: white;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+.modal{
+    position: fixed;
+    border: 2px;
+    z-index: 1;
+    display: none;
+    left: 25%;
+    width: 50%;
+    height: auto;
+    overflow: auto;
+    background-color: rgba(177, 39, 39, 0.5);
+    animation: animatetop;
+    animation-duration: 1s;
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+
+
+.modal-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 100px;
+    height: 50%;
+}
+
+#transfer-button{
+    display: none;
+}
+
+.modal-close{
+    display: flex;
+    justify-content: end;
+    position: relative;;
+    width: 100%;
+}
+
+#error-msge{
+    display: none;
+}

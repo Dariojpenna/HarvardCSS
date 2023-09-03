@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block body%}
+     <div class="mx-3">
+          <h1>{{account.bank}}</h1>
+          <h3>Home Banking app</h3>
+          <div class="message bg bg-success">
+               {% if message %}
+                    {{message}}
+               {% endif %}
+          </div>
+          <hr>
+          <p>User</p>
+          {{user.first_name}}
+          <hr>
+          <p>Amount</p>
+          {{account.account_amount}}
+          <hr>
+          <p>Account</p>
+          {{account.cbu}}
+     </div>
+{% endblock %}

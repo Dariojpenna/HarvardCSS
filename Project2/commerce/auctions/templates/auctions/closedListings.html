@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    
+    <h2>Closed Listings</h2>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="alert-succes"{% endif %}>{{ message }}</li>
+            {% endfor %}
+         </ul>
+    {% endif %}
+    
+    <form action="{% url 'categories' %}" method="post" >
+        {% csrf_token %}
+        <div>
+            <label for="category" >Choose a Category</label>
+            <select name="category" id="category">
+                {% for cat in categories %} 
+
+                <option value="{{cat}}">{{cat}}</option>
+
+                {%endfor%}
+            </select>
+            <input type="submit" value="Choose Category">
+        </div>
+
+    </form>
+    <ul  >
+        {% for auction in auctions %}
+        
+            {% if not auction.activated %}
+                <li >
+                    <div class="images">
+                        {% if auction.image %} <img src="{{auction.image.url}}" alt="" width="300" height="230">{% endif %}
+                    </div>
+                    <div class="properties">
+                        <p class="items"> Article : {{auction.article }} </p>   
+                        <p class="items"> Current Price : ${{ auction.price }} </p> 
+                        <p class="items"> User : {{auction.owner}} </p>    
+                        <p> {{ auction.date}} </p>
+                    </div>
+                    <div class="description" >
+                        <p class="items"> Description : </p>
+                        <p class="text-description">{{ auction.description}}</p>
+                    </div>
+                    <div >
+                        <form action="{% url 'product' id=auction.id %}" method="get">
+
+                            <button style="margin-top: 100px;" class= "btn btn-outline-primary">View Product</button>
+                        </form>
+                    </div>                     
+                
+                </li>
+            {% endif %}
+        {% endfor %}
+    
+    </ul>
+    
+{% endblock %}

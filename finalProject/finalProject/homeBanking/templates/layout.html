@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.1-dist/css/bootstrap.css' %}">
+   
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    {% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.1-dist/js/bootstrap.js' %}">
+    {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout</title>
+</head>
+<body>
+    <nav class="nav d-flex align-content-end justify-content-end">
+        {% block nav %}        
+            {% if user.is_authenticated %}
+            <a href="{% url 'index' %}"> Home</a>
+            <a href="{% url 'transfer' %}"> Transfer</a>
+            <a href="{% url 'deposit' %}"> Deposit</a>
+            <a href="{% url 'services' %}"> Services</a>
+            <a href="{% url 'profile' %}">Profile </a>
+            <a href="{% url 'logout' %}">Log Out</a>           
+     
+            {% endif %}
+        {% endblock %}
+    </nav>
+    <div class="body">
+        {% block body %}
+        {% endblock %}
+    </div>
+    <footer class="footer h-25 mt-3">
+        asdsadas
+    </footer>
+</body>
+</html>

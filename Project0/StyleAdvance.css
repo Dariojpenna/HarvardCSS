@@ -1,0 +1,63 @@
+.Page{
+    display: block;
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    background-color: rgb(194, 222, 223);          
+}
+.Button {
+    text-align: right;
+}
+.s {
+    display:grid;
+    grid-template-columns:8fr 20fr 20fr;
+    grid-gap : 20px;
+    text-align: left;
+}
+.i {
+    margin: 10px;
+       
+}
+.f {
+    margin: 10px;
+    
+}
+.cla {
+    border-color: aliceblue;
+}
+.cla:focus{
+    border-color: blue;
+    outline: none;
+}
+.as {
+    background-color: #4d90fe;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #1637c9;
+}
+
+#Barra{
+    padding-left: 20px;
+    color: #d93025;
+    margin-left: 10px;
+}
+.Border{
+    margin: 40px;
+    border-bottom: 01px solid #ebebeb;
+}
+
+.ff{
+    margin: 10px;
+    text-size-adjust: 10px;
+}
+#as_Button{
+    text-align: center;
+    
+}
+.fff{
+    text-size-adjust: 10xp;
+    margin: 10px;
+}
+.kk{
+    padding-left: 20px;
+}

@@ -1,0 +1,61 @@
+textarea {
+    min-height: 400px;
+}
+
+.div1{
+    color: blue;
+    
+}
+
+li{
+    display: flex;
+    list-style: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.readed{
+    background-color: rgb(207, 206, 206) ;
+}
+
+
+
+.sender{
+    cursor: pointer;
+    margin: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.sect{
+    margin: auto;
+    margin-left: 1rem;
+}
+
+.timeStamp{
+   margin: auto;
+   margin-right: 1rem;
+}
+
+.info{
+    border: 1px solid rgb(207, 205, 205);
+    width: 60%;
+    padding: 1rem;
+    
+}
+.bodyMail{
+    border: 1px solid rgb(207, 205, 205);
+    padding: 1rem;
+    width: 60%;
+  
+}
+
+
+.replay{
+    margin-top: 1rem;
+}
+

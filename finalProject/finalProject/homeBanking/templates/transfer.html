@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block body%}
+    <div class="mx-3">
+        <h1> Transfers </h1>
+
+        <div class="modal   w-50 h-50  ">
+            <div class="modal-content ">
+                        <div class="modal-close">
+                            <button id="btn_modal_close" class="btn-close m-2" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-generator w-100">
+                            <input class="btn btn-primary m-2" type="submit" value="generator" id="codeGenerator" >
+                        </div>
+                        <div class="modal-check w-100">
+                            <input class="m-2" type="text"  placeholder="Code" id="codeInput">
+                            <input class="btn btn-primary m-2" type="submit" value="checker" id="codeChecker">
+                        </div>
+                        
+            </div>
+        </div>
+        <div class="error message bg bg-danger">
+            {% if message %}
+                {{message}}
+            {% endif %}
+        </div>
+    
+
+        <form class="form" action="{% url 'transfer' %} " method="post">
+
+            {% csrf_token %}
+            <p>chooses the amount</p>
+            <input autofocus class="form-control" type="text" name="amount" maxlength="8" inputmode="numeric" pattern="[0-9]+" placeholder="$ 000,0" required >
+            <p>Choose the recipent account number</p>
+            <input type="text" maxlength="22" minlength="22" name="cbu_recipient" id="" required>
+            <br>
+            
+            <button class="btn btn-primary mt-2" id="transfer-button">Transfer</button>
+        </form>
+        <button class=" btn btn-primary mt-2" id="modalBtn" onclick="whatsapp_validation()">SMS Validation</button>
+
+
+        <div>
+            <hr>
+            {% for transaction in transactionsInPage %}
+                
+                <div class="d-flex justify-content-between" >
+                    
+                    <div>
+                        {{transaction.date}}
+                    </div>
+                    <div>
+                            {% if transaction.account_sender == account %}
+                                $  -{{transaction.transaction_amount}}
+                            {% else %}
+                                $  +{{transaction.transaction_amount}}
+                            {% endif %}
+                    </div>
+                    <div>
+                        {{transaction.type}}
+                    </div>
+                    <div>
+                        <a href="{% url 'transfer_detail' transactionId=transaction.id %}" class="btn btn-primary"> View Detail</a>
+                    </div>
+                </div>
+                <hr>
+                
+
+            {% endfor %}
+        </div>
+
+        <nav class="nav justify-content-center" aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if transactionsInPage.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{transactionsInPage.previous_page_number}}">Previous</a></li>
+                {% endif %}
+        
+                {% if transactionsInPage.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{transactionsInPage.next_page_number}}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        </div>
+    
+{% endblock %}
+
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'javaS.js' %}"></script>
+{% endblock %}

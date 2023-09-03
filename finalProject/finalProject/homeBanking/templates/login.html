@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block nav %}        
+ Navegador
+
+{% endblock %}
+
+<!-- oninput="formatDocumento(this)" -->
+
+{% block body%}
+     <h1>My HomeBanking app </h1>
+
+     {% if message %}
+
+        {{message}}
+
+    {% endif %}
+     <div class="row">
+        <div class="login col-3">
+            <form action="{% url 'login' %}" method="post" class="login_form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input autofocus class="form-control" type="text" name="document" maxlength="8" inputmode="numeric" pattern="[0-9]+" placeholder="DNI" required >
+                </div>
+                <div class="form-group">
+                    <input autofocus class="form-control" type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password"  autocomplete="off" required>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Login">
+            </form>
+            <a href="{% url 'register' %}">if you're not a user please register</a>
+        </div>
+        <div class="img col-9">
+   
+        </div>
+     </div>
+   
+
+{% endblock %}
+
+

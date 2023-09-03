@@ -1,0 +1,106 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if messages %}
+<ul >
+    {% for message in messages %}
+        {% if accepted %}
+            <li{% if message.tags %} class="alert-succes"{% endif %}>{{ message }}</li>
+        {% else %}
+            <li{% if message.tags %} class="alert-error"{% endif %}>{{ message }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if not product.activated %}
+    <h3>Auction closed</h3>
+    {% if winner %}
+        <p class="winner">Congratulations you won the auction</p>
+    {% endif %}
+{% endif %}
+
+<li >
+    <div class="images">
+        {% if product.image %} <img src="{{product.image.url}}" alt="" width="300" height="230">{% endif %}
+    </div>
+    <div class="properties">
+        <p class="items"> Article : {{product.article }} </p>   
+        <p class="items"> Current Price : ${{ product.price }} </p> 
+        <p class="items"> User : {{product.owner}} </p>    
+        <p> {{ product.date}} </p>
+    </div>
+    <div class="description" >
+        <p class="items"> Description : </p>
+        <p class="text-description">{{ product.description}}</p>
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+            
+       
+            {% if productList%}
+                    <form action="{% url 'removeFromWatchlist' id=product.id%}" method="get">
+                        <button style="margin-top: 100px;" class= "btn btn-outline-danger">Remove From Watchlist</button>
+                    </form>
+            {% else %}             
+                    <form action="{% url 'addToWatchlist' id=product.id%}" method="get">
+                        <button style="margin-top: 100px;" class= "btn btn-outline-success">Add to Watchlist</button>
+                    </form>
+                                 
+            {% endif %}
+
+            {% if owner %}
+                <form action="{% url 'removeAuction' id=product.id%}" method="post">
+                    {% csrf_token %}
+                    <button style="margin-top: 50px;" class= "btn btn-warning">Remove Auction</button>
+                </form>
+            {% endif %}
+
+        {% endif %}
+        
+    </div>
+
+</li>
+<div>
+<div>
+    <form action="{% url 'offer' id=product.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="offer" placeholder="Make an offer" id="">
+        <button class="btn btn-outline-danger">Bid</button>
+    </form>
+</div>
+    <h3>Comments</h3>
+</div>
+<div >
+    {% for comment in comments %}
+
+        <div style="background-color: rgb(241, 236, 236);">
+            <h6> {{comment.name}} :</h6>
+        
+        
+           <p >{{comment.comment}}</p> 
+        </div>
+
+    {% endfor %}
+</div>
+<div>
+    
+
+    {% if user.is_authenticated %}
+       
+        <table>
+            <form action="{% url 'comment' id=product.id %} " method="post">
+                {% csrf_token %}
+
+                {{ form }}
+
+                <button  style="margin-left: 80px;" class="btn btn-outline-primary" >Send Comment</button>
+            </form>
+        </table>
+       
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
