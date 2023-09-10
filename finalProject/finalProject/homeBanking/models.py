@@ -53,6 +53,20 @@ class Account(models.Model):
     def __str__(self):
         return f"{self.cbu}: {self.account_amount} {self.owner.first_name} {self.bank}";
 
+class Transaction(models.Model):
+    account_sender = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="sender_account",default=None)
+    account_recipient = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="recipent_account",default=None)
+    transaction_amount = models.DecimalField(decimal_places=3,max_digits=10)
+    date = models.DateTimeField(auto_now=True)
+    choices = [
+        ('Debit', 'Debit'),
+        ('Transfer', 'Transfer'),
+        ('Deposit', 'Deposit'),
+    ]
+    type = models.CharField( choices=choices,max_length=30)
+
+    def __str__(self):
+        return f"{self.transaction_amount}: {self.date}, {self.type}"
 
 class Service(models.Model):
     user = models.ManyToManyField(User,related_name="service",blank=True)
@@ -66,6 +80,7 @@ class Service(models.Model):
         ('Paid', 'Paid')
     ]
     state = models.CharField(choices=choices,max_length=30,default="Pending")
+    service_transaction = models.ForeignKey(Transaction, on_delete=models.SET_NULL, related_name='service_transaction', null=True, blank=True)
     def __str__(self):
         return f" {self.service_name}: {self.amount_service} {self.expiration_date} {self.service_account} {self.state} {self.paid_date} "
     
@@ -84,18 +99,5 @@ class Card(models.Model):
     def __str__(self):
         return f"{self.owner}: {self.cvv}, {self.type}"
     
-class Transaction(models.Model):
-    account_sender = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="sender_account",default=None)
-    account_recipient = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="recipent_account",default=None)
-    transaction_amount = models.DecimalField(decimal_places=3,max_digits=10)
-    date = models.DateTimeField(auto_now=True)
-    choices = [
-        ('Debit', 'Debit'),
-        ('Transfer', 'Transfer'),
-        ('Deposit', 'Deposit'),
-    ]
-    type = models.CharField( choices=choices,max_length=30)
 
-    def __str__(self):
-        return f"{self.transaction_amount}: {self.date}, {self.type}"
     

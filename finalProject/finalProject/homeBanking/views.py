@@ -1,4 +1,5 @@
 
+from io import BytesIO
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -16,7 +17,10 @@ from django.template.loader import render_to_string
 from django.core.paginator import Paginator
 from decimal import Decimal
 from datetime import datetime
-# Create your views here.
+from django.http import FileResponse
+from django.shortcuts import render
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.pdfgen import canvas
 
 
 
@@ -93,7 +97,7 @@ def switch(cbu):
 
     return bank
 
-
+#//TODO: Corroborar que el documento y el nick no existan
 def  register(request):
     if request.method == "POST":
         first_name = request.POST['first_name']
@@ -345,12 +349,9 @@ def addService(request):
         newService.save()
         user=request.user
         user.service.add(newService)
-        services = user.service.all()
-        
 
-        return render(request, 'services.html',{
-            'services':services
-        })
+        
+        return HttpResponseRedirect(reverse("services"))
     else:
         user_enterprises = User.objects.filter(username__icontains='Enterprise')
         
@@ -366,36 +367,80 @@ def service_detail(request,id):
         'courrent_date' : courrent_date,
     })
 
+#TODO: corroborar que hay plata en la cuenta y sacar los comentarios en español
+
 def service_pay(request,id):
 
-    #PASAMOS TODOS LOS SERVICIOS A LA PAG
-    services = request.user.service.all()
-
     #OBTENEMOS LOS DATOS
+    courrent_date = datetime.now().date()
     account_sender = Account.objects.get(owner = request.user)#cuenta que se debita
     service = Service.objects.get(id=id)#servicio
     amount = service.amount_service#valor a debitar
+    print(type(account_sender.account_amount))
+    print(type(amount))
+    if   account_sender.account_amount > amount :
+            #CREAMOS LA TRANSACCION
+        debit = Transaction.objects.create(account_sender= account_sender,
+                                            account_recipient = service.service_account,
+                                            transaction_amount = amount,
+                                            date = datetime.now(),
+                                            type = 'Debit')
+        debit.save()
+            #agrego la transaccion al servicio
+        service.service_transaction = debit
+        service.save()
 
-   
-    #CREAMOS LA TRANSACCION
-    debit = Transaction.objects.create(account_sender= account_sender,
-                                       account_recipient = service.service_account,
-                                       transaction_amount = amount,
-                                       date = datetime.now(),
-                                       type = 'Debit')
-    debit.save()
+            #DEBITAMOS DE LA CUENTA DEL USUARIO
+        account_sender.account_amount = account_sender.account_amount - amount
+        account_sender.save()
+            #AGREGAMOS A LA CUENTA DEL SERVICIO
+        service.service_account.account_amount =  service.service_account.account_amount + amount
+        service.service_account.save()
+            #cambiamos el estado de la cuenta
+        service.state = "Paid"
+        service.paid_date = datetime.now()
+        service.save()
 
-    #DEBITAMOS DE LA CUENTA DEL USUARIO
-    account_sender.account_amount = account_sender.account_amount - amount
-    account_sender.save()
-    #AGREGAMOS A LA CUENTA DEL SERVICIO
-    service.service_account.account_amount =  service.service_account.account_amount + amount
-    service.service_account.save()
-    #cambiamos el estado de la cuenta
-    service.state = "Paid"
-    service.paid_date = datetime.now()
-    service.save()
+        return HttpResponseRedirect(reverse("services"))
+    else:
+        return render(request, 'serviceDetail.html',{
+        'service':service,
+        'courrent_date' : courrent_date,
+        "message": "You have not enough money",
+    })
 
-    return render(request, 'services.html',{
-            'services':services
-        })
+
+
+
+def voucher(request, id):
+    #get the transfer data
+    transfer = Transaction.objects.get(id=id)
+    print (transfer.transaction_amount)
+    # Create a PDF object using ReportLab and store it in BytesIO
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+
+    formatted_date = transfer.date.strftime('%Y-%m-%d %H:%M:%S')
+    # Add content to PDF
+    c.drawString(100, 750, 'transfer voucher')
+    c.drawString(100, 700, 'Fecha: {}'.format(formatted_date))
+    c.drawString(100, 680, 'To: ' + transfer.account_recipient.cbu)
+    c.drawString(100, 660, 'Total Ampunt: ' + str(transfer.transaction_amount))
+
+    # Finish the PDF and close the canvas object
+    c.showPage()
+    c.save()
+
+    # Configure the buffer object for reading from the beginning
+    buffer.seek(0)
+
+    # Create a FileResponse response with the buffer content
+    response = FileResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="transfer_voucher.pdf"'
+
+    return response
+
+
+
+
+

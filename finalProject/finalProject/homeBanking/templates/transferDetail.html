@@ -4,7 +4,23 @@
 
 {% block body%}
      <h1>Transfer Detail</h1>
-
-     {{transfer}}
+     <div>
+          <div>
+               {{transfer.account_recipient.owner.username}}
+          </div>
+          <div>
+               {{transfer.transaction_amount}}
+          </div>
+          <div>
+               {{transfer.type}}
+          </div>
+          <div>
+               {{transfer.date}}
+          </div>
+          <div>
+               <a class="btn btn-primary" href="{% url 'voucher' id=transfer.id %}" target="_blank">Generate voucher</a>
+          </div>
+     </div>
+     
 
 {% endblock %}

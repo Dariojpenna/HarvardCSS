@@ -4,6 +4,7 @@
 
 
 
+
 {% block body%}
      <h1>Service Detail</h1>
      <div>
@@ -23,12 +24,20 @@
         <div>
             {% if service.state == 'Paid' %}
                 <p style="color: green;">{{service.state | date:"Y-m-d"}} ✔ </p>
+
+                <div>
+                    <a class="btn btn-primary" href="{% url 'voucher' id=service.service_transaction.id %}" target="_blank">Generate voucher</a>
+                </div>
             {% else %}
                 <p style="color: red;"> {{service.state | date:"Y-m-d"}}</p>
-                <a href="{% url 'service_pay' id=service.id %}" class="btn btn-primary">Pay</a>
+                <a href="{% url 'service_pay' id=service.id  %}" class="btn btn-primary">Pay</a>
+                {% if message %}
+                    {{message}}
+                {% endif %}  
             {% endif %}
         </div>
+
+
      </div>
     
-
 {% endblock %}
