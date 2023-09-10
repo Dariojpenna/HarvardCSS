@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% load humanize %}
+{% load static %}
+
+
+
+{% block body%}
+     <h1>Service Detail</h1>
+     <div>
+        <div>
+            {{service.service_name}}
+        </div>
+        <div>
+            $ {{service.amount_service}}
+        </div>
+        <div>
+            {% if courrent_date <= service.expiration_date %}
+                <p >{{service.expiration_date}}</p>
+            {% else %}  
+            <p style="color: red;">{{service.expiration_date}}</p>
+            {% endif %}
+        </div>
+        <div>
+            {% if service.state == 'Paid' %}
+                <p style="color: green;">{{service.state | date:"Y-m-d"}} ✔ </p>
+            {% else %}
+                <p style="color: red;"> {{service.state | date:"Y-m-d"}}</p>
+                <a href="{% url 'service_pay' id=service.id %}" class="btn btn-primary">Pay</a>
+            {% endif %}
+        </div>
+     </div>
+    
+
+{% endblock %}

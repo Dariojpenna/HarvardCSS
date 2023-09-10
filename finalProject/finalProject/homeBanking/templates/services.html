@@ -5,6 +5,37 @@
 {% block body%}
      <h1>Services</h1>
 
+     <a href="addService" class="btn btn-primary">Add Service</a>
+
+     {% for service in services %}
+          <hr>
+          <div>
+               <div>
+                    {{service.service_name}}
+               </div>
+               <div>
+                    
+                    {% if courrent_date <= service.expiration_date %}
+                        <p >{{service.expiration_date}}</p>
+                    {% else %}  
+                    <p style="color: red;">{{service.expiration_date}}</p>
+                    {% endif %}
+                </div>
+               <div>
+                    {% if service.state == 'Paid' %}
+                        <p style="color: green;">{{service.state}} ✔</p>
+                    {% else %}
+                        <p style="color: red;"> {{service.state}} </p>
+                    {% endif %}
+                </div>
+
+               <div>
+                    <a class="btn btn-primary" href="{% url 'service_detail' id=service.id %}"> View Detail</a>
+               </div>
+          </div>
 
 
+          <hr>
+          
+     {% endfor %}
 {% endblock %}

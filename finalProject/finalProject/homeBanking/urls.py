@@ -15,5 +15,8 @@ urlpatterns = [
     path('transfer_detail/<int:transactionId>',views.transfer_detail,name="transfer_detail"),
     path('profile',views.profile,name="profile"),
     path('editEmail/',views.editEmail,name="editEmail"),
-    path('editPhone/',views.editPhone,name="editPhone")
+    path('editPhone/',views.editPhone,name="editPhone"),
+    path('addService', views.addService,name='addService'),
+    path('service_detail/<int:id>', views.service_detail, name='service_detail'),
+    path('service_pay/<int:id>',views.service_pay,name='service_pay')
 ]

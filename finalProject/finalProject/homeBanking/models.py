@@ -17,7 +17,7 @@ def validate_creditCard(value):
      
 def validate_dni(value):
     if len(str(value)) != 8:
-        raise ValidationError('The lenght of the cvv number is 8.')
+        raise ValidationError('The lenght of the dni number is 8.')
     
 class User(AbstractUser):
     groups = models.ManyToManyField(Group, related_name='homebanking_users')
@@ -28,10 +28,9 @@ class User(AbstractUser):
     email = models.EmailField(max_length=50);
     phone_number = models.CharField(max_length=50,default="",verbose_name='Phone Number')
     dni = models.IntegerField(validators=[validate_dni], default=0);
-
+    
     def __str__(self):
-        return f"{self.first_name}: {self.password} {self.last_name}  {self.username} {self.email} {self.phone_number} ";
-
+        return f"{self.first_name}: {self.password} {self.last_name}  {self.username} {self.email} {self.phone_number} {self.service}";
 
 
 class Account(models.Model):
@@ -50,15 +49,32 @@ class Account(models.Model):
         ('Voyager_Bancorp_Bank', 'Voyager_Bancorp_Bank'),
     ]
     bank = models.CharField(max_length=100,choices=choices,default="")
-
+    
     def __str__(self):
-        return f"{self.cbu}: {self.account_amount}, {self.type}";
+        return f"{self.cbu}: {self.account_amount} {self.owner.first_name} {self.bank}";
 
-class CreditCard(models.Model):
+
+class Service(models.Model):
+    user = models.ManyToManyField(User,related_name="service",blank=True)
+    amount_service = models.DecimalField(decimal_places=3,max_digits=10,blank=True,null=True)
+    service_name = models.CharField(max_length=30)
+    paid_date = models.DateField(default=None,blank=True,null=True)
+    expiration_date = models.DateField(default=None)
+    service_account =models.ForeignKey(Account, on_delete=models.CASCADE,related_name="service_account",default=None)
+    choices = [
+        ('Pending', 'Pending'),
+        ('Paid', 'Paid')
+    ]
+    state = models.CharField(choices=choices,max_length=30,default="Pending")
+    def __str__(self):
+        return f" {self.service_name}: {self.amount_service} {self.expiration_date} {self.service_account} {self.state} {self.paid_date} "
+    
+
+class Card(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="owner_creditCard")
     cvv = models.IntegerField (validators=[validate_creditCard])
     card_number = models.IntegerField(default=0)
-    expiration_date = models.DateTimeField(default=timezone.now)
+    expiration_date = models.DateField(default=timezone.now)
     choices = [
         ('Debit', 'Debit'),
         ('Credit', 'Credit'),
@@ -72,7 +88,7 @@ class Transaction(models.Model):
     account_sender = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="sender_account",default=None)
     account_recipient = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="recipent_account",default=None)
     transaction_amount = models.DecimalField(decimal_places=3,max_digits=10)
-    date = models.DateTimeField(auto_now=True)#cambiar por dateTimeField
+    date = models.DateTimeField(auto_now=True)
     choices = [
         ('Debit', 'Debit'),
         ('Transfer', 'Transfer'),
@@ -82,11 +98,4 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.transaction_amount}: {self.date}, {self.type}"
-    
-class Service(models.Model):
-    service_amount = models.DecimalField(decimal_places=3,max_digits=10)
-    service = models.CharField(max_length=30)
-
-    def __str__(self):
-        return f"{self.service_amount}: {self.service}"
     

@@ -5,17 +5,17 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from .forms import UserForm
-from .models import User, Transaction,Account
+from .models import User, Transaction,Account,Card,Service
 from django.db import IntegrityError
 import random
 from django.db.models import Q
 from twilio.rest import Client
-import random
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator
-
+from decimal import Decimal
+from datetime import datetime
 # Create your views here.
 
 
@@ -24,9 +24,12 @@ def index(request):
     
     if request.user.is_authenticated:
         account = Account.objects.get(owner=request.user)
+
+        card = Card.objects.filter(owner=request.user)
         return render(request, "index.html",{
             "user":request.user,
-            "account": account
+            "account": account,
+            'card': card
         })
     
     return render(request, 'login.html')
@@ -110,7 +113,9 @@ def  register(request):
         try:
             user = User.objects.create_user(first_name=first_name,last_name=last_name,dni=dni,username=username,email=email,phone_number=phone, password=password)
             user.save()
-            account= Account.objects.create(owner = user, cbu = cbu,bank=bank)
+            account= Account.objects.create(owner = user,
+                                             cbu = cbu,
+                                             bank=bank)
             account.save()
         except IntegrityError:
             return render(request, "network/aaasd.html", {
@@ -139,15 +144,13 @@ def deposit(request):
     from_email = 'mydjangoapp88@gmail.com'
     recipient_list = [account.owner.email]
 
-    send_mail(subject, message, from_email, recipient_list)
-
     if request.method == 'POST':
         transaction_amount = request.POST['amount']
         transaction = Transaction(transaction_amount=transaction_amount,type=type,account_sender=account,account_recipient=account)
         transaction.save()
         account.account_amount= account.account_amount + int(transaction_amount)
         account.save()
-
+        send_mail(subject, message, from_email, recipient_list)
         return render(request, "index.html",{
             "message": "The deposit was made correctly",
             "user":request.user,
@@ -165,8 +168,8 @@ def deposit(request):
 
 def transfer(request):
     account_sender = Account.objects.get(owner=request.user)
-    transactions= Transaction.objects.filter((Q(account_sender=account_sender) | Q(account_recipient=account_sender)) and Q(type="Transfer")).order_by("id").reverse()
-    
+    transactions1= Transaction.objects.filter(Q(account_sender=account_sender) | Q(account_recipient=account_sender)).order_by("id").reverse()
+    transactions = transactions1.filter(Q(type="Debit") | Q(type='Transfer'))
     paginator = Paginator(transactions, 5)
     pageNumber = request.GET.get('page')
     transactionsInPage = paginator.get_page(pageNumber)
@@ -263,7 +266,16 @@ def code_checker(request):
         return JsonResponse({"message": "2"})
 
 def services(request):
-    return render (request, "services.html")
+    services = request.user.service.all()
+    courrent_date = datetime.now().date()
+    print(type(courrent_date))
+    for service in services:
+
+        print(type(service.expiration_date))    
+    return render (request, "services.html",{
+        'services': services,
+        'courrent_date' : courrent_date
+    })
 
 
 def transfer_detail(request,transactionId):
@@ -316,3 +328,74 @@ def editPhone(request):
         return JsonResponse(response_data)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
+
+def addService(request):
+    if request.method == 'POST':
+        courrent_date = datetime.now().date()
+        expiration_date = datetime(courrent_date.year, courrent_date.month, 10)
+        service_id = request.POST['selected_user']
+        service_account = Account.objects.get(owner=service_id)
+        newService = Service.objects.create( service_name = service_account.owner.username,
+                                amount_service = Decimal(random.uniform(100, 200)),
+                                expiration_date =  expiration_date,
+                                service_account = service_account,
+                                state = "Pending")
+        
+        newService.save()
+        user=request.user
+        user.service.add(newService)
+        services = user.service.all()
+        
+
+        return render(request, 'services.html',{
+            'services':services
+        })
+    else:
+        user_enterprises = User.objects.filter(username__icontains='Enterprise')
+        
+        return render(request, 'addService.html',{
+            'user_enterprises':user_enterprises
+        })
+    
+def service_detail(request,id):
+    service = Service.objects.get(id=id)
+    courrent_date = datetime.now().date()
+    return render(request, 'serviceDetail.html',{
+        'service':service,
+        'courrent_date' : courrent_date,
+    })
+
+def service_pay(request,id):
+
+    #PASAMOS TODOS LOS SERVICIOS A LA PAG
+    services = request.user.service.all()
+
+    #OBTENEMOS LOS DATOS
+    account_sender = Account.objects.get(owner = request.user)#cuenta que se debita
+    service = Service.objects.get(id=id)#servicio
+    amount = service.amount_service#valor a debitar
+
+   
+    #CREAMOS LA TRANSACCION
+    debit = Transaction.objects.create(account_sender= account_sender,
+                                       account_recipient = service.service_account,
+                                       transaction_amount = amount,
+                                       date = datetime.now(),
+                                       type = 'Debit')
+    debit.save()
+
+    #DEBITAMOS DE LA CUENTA DEL USUARIO
+    account_sender.account_amount = account_sender.account_amount - amount
+    account_sender.save()
+    #AGREGAMOS A LA CUENTA DEL SERVICIO
+    service.service_account.account_amount =  service.service_account.account_amount + amount
+    service.service_account.save()
+    #cambiamos el estado de la cuenta
+    service.state = "Paid"
+    service.paid_date = datetime.now()
+    service.save()
+
+    return render(request, 'services.html',{
+            'services':services
+        })
