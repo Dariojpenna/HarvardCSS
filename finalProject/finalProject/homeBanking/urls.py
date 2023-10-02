@@ -19,5 +19,6 @@ urlpatterns = [
     path('addService', views.addService,name='addService'),
     path('service_detail/<int:id>', views.service_detail, name='service_detail'),
     path('service_pay/<int:id>',views.service_pay,name='service_pay'),
-    path('voucher/<int:id>', views.voucher, name='voucher')
+    path('voucher/<int:id>', views.voucher, name='voucher'),
+    path('account',views.account, name='account')
 ]

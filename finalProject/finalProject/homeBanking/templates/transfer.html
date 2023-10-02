@@ -3,8 +3,8 @@
 
 
 {% block body%}
-    <div class="mx-3">
-        <h1> Transfers </h1>
+    <div class="col-8">
+        <h1 class="mt-3"> Transfers </h1>
 
         <div class="modal   w-50 h-50  ">
             <div class="modal-content ">
@@ -31,44 +31,55 @@
         <form class="form" action="{% url 'transfer' %} " method="post">
 
             {% csrf_token %}
-            <p>chooses the amount</p>
-            <input autofocus class="form-control" type="text" name="amount" maxlength="8" inputmode="numeric" pattern="[0-9]+" placeholder="$ 000,0" required >
-            <p>Choose the recipent account number</p>
-            <input type="text" maxlength="22" minlength="22" name="cbu_recipient" id="" required>
-            <br>
-            
-            <button class="btn btn-primary mt-2" id="transfer-button">Transfer</button>
+            <div class="mt-5">
+                <h3>chooses the amount</h3>
+                <input  class="form-control w-50 fs-1 " type="text" name="amount" maxlength="8" inputmode="numeric" pattern="[0-9]+" placeholder="$ 000,0" required >
+            </div>
+            <div class="mt-5">
+                <h5>Choose the recipent account number</h5>
+                <input type="text" class="form-control w-50 fs-4 " maxlength="22" minlength="22" name="cbu_recipient" id="" required>
+                <br>
+            </div>
+            <div>
+                <button class="btn btn-primary mt-2" id="transfer-button">Transfer</button>
+            </div>
+
         </form>
         <button class=" btn btn-primary mt-2" id="modalBtn" onclick="whatsapp_validation()">SMS Validation</button>
 
 
         <div>
-            <hr>
-            {% for transaction in transactionsInPage %}
-                
-                <div class="d-flex justify-content-between" >
-                    
-                    <div>
-                        {{transaction.date}}
-                    </div>
-                    <div>
-                            {% if transaction.account_sender == account %}
-                                $  -{{transaction.transaction_amount}}
-                            {% else %}
-                                $  +{{transaction.transaction_amount}}
-                            {% endif %}
-                    </div>
-                    <div>
-                        {{transaction.type}}
-                    </div>
-                    <div>
-                        <a href="{% url 'transfer_detail' transactionId=transaction.id %}" class="btn btn-primary"> View Detail</a>
-                    </div>
-                </div>
-                <hr>
-                
-
-            {% endfor %}
+            <table class="table table-borderless w-100 m-auto">
+                <thead>
+                    <tr class="m-auto">
+                        <th scope="col" class="text-center align-middle" >Date</th>
+                        <th scope="col" class="text-center align-middle">Description</th>
+                        <th scope="col" class="text-center align-middle">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactionsInPage %}
+                        <tr>
+                            <td class="text-center align-middle bg-secondary-subtle">{{transaction.date.date}}</td>
+                            <td class="text-center align-middle">{{transaction.type}}</td>
+                            <td class="text-center align-middle bg-secondary-subtle">
+                                {% if transaction.type == "Deposit" %}
+                                        $  +{{transaction.transaction_amount}}
+                                {% else %}    
+                                        {% if transaction.account_sender == account %}
+                                            $  -{{transaction.transaction_amount}}
+                                        {% else %}
+                                            $  +{{transaction.transaction_amount}}
+                                        {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="{% url 'transfer_detail' transactionId=transaction.id %}">View Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
         <nav class="nav justify-content-center" aria-label="Page navigation example">
@@ -90,4 +101,5 @@
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'javaS.js' %}"></script>
+<script  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 {% endblock %}

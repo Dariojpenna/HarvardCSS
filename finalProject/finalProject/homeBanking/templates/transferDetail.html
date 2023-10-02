@@ -1,26 +1,38 @@
 {% extends "layout.html" %}
 {% load static %}
 
-
 {% block body%}
-     <h1>Transfer Detail</h1>
-     <div>
-          <div>
-               {{transfer.account_recipient.owner.username}}
-          </div>
-          <div>
-               {{transfer.transaction_amount}}
-          </div>
-          <div>
-               {{transfer.type}}
-          </div>
-          <div>
-               {{transfer.date}}
-          </div>
-          <div>
-               <a class="btn btn-primary" href="{% url 'voucher' id=transfer.id %}" target="_blank">Generate voucher</a>
+     <div class="col-8">
+          <h1 class="mt-3" >Transfer Detail</h1>
+          <div class=" row d-flex rounded-2 mt-5 p-3" id="details_card">
+               
+               <table class="table" >
+                    <tr >
+                         <th class="text-center align-middle">
+                              RECIPIENT
+                         </th>
+                         <th class="text-center align-middle">
+                              AMOUNT
+                         </th>
+                         <th class="text-center align-middle">
+                              TYPE
+                         </th>
+                         <th class="text-center align-middle">
+                              DATE
+                         </th>
+                    </tr>
+                    <tr>
+                         <td class="text-center align-middle" > {{transfer.account_recipient.owner.username}}</td>
+                         <td class="text-center align-middle"> $ {{transfer.transaction_amount}}</td>
+                         <td class="text-center align-middle">{{transfer.type}}</td>
+                         <td class="text-center align-middle">{{transfer.date}}</td>                    
+                    </tr>
+               </table>
+               <div>
+                    <a class="btn btn-primary" href="{% url 'voucher' id=transfer.id %}" target="_blank">Generate voucher</a>
+               </div>
           </div>
      </div>
-     
 
 {% endblock %}
+

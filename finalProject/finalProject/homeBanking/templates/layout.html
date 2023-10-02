@@ -4,36 +4,127 @@
 <html lang="en">
 <head> 
     <link rel="stylesheet" href="{% static 'bootstrap-5.3.1-dist/css/bootstrap.css' %}">
-   
     <link href="{% static 'style.css' %}" rel="stylesheet">
     {% block script %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        
     {% endblock %}
+    <script src="{% static 'layout.js' %}"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layout</title>
 </head>
 <body>
-    <nav class="nav d-flex align-content-end justify-content-end">
-        {% block nav %}        
-            {% if user.is_authenticated %}
-            <a href="{% url 'index' %}"> Home</a>
-            <a href="{% url 'transfer' %}"> Transfer</a>
-            <a href="{% url 'deposit' %}"> Deposit</a>
-            <a href="{% url 'services' %}"> Services</a>
-            <a href="{% url 'profile' %}">Profile </a>
-            <a href="{% url 'logout' %}">Log Out</a>           
-     
+    <header class="d-flex align-content-center ">
+        <img src="{% static 'media/1.png' %}" width="100" height="100" alt="">
+        
+        {% block header %}
+        
+        {% endblock %}
+    </header>
+    <div class="body_cont d-flex flex-wrap row">
+        {% if user.is_authenticated %}
+        <nav class="col-2  ">
+            {% block nav %}  
+                <div class="mt-2 mx-3 d-flex ">
+                    <div class="m-1 d-none d-sm-block">
+                        <ion-icon class="fs-4" name="person-circle-outline"></ion-icon>
+                    </div>
+                    <div >
+                        <div class="d-flex">
+                            {{user.first_name}} {{user.last_name}}
+                        </div>
+                        <div class="date_joined">
+                            {{user.date_joined.date}}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav_link mt-5 mx-2 d-flex ">
+                    <div >
+                        <a href="{% url 'index' %}" class=" d-flex mx-3 align-items-center align-content-center {% if request.path == '/' %}active{% endif %}"> <ion-icon name="home-outline"></ion-icon>  <p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center" > Home</p></a> 
+                    </div>
+                </div>
+                <div class="nav_link mt-4 mx-2 d-flex">
+                    <div>
+                        <a href="{% url 'transfer' %}" class=" d-flex mx-3 align-items-center align-content-center {% if request.path == '/transfer' %}active{% endif %} "> <ion-icon name="swap-horizontal-outline"></ion-icon>  <p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center" > Transfer</p></a> 
+                    </div>
+                </div> 
+                <div class="nav_link mt-4  mx-2 d-flex">
+                    <div>
+                        <a href="{% url 'deposit' %}" class=" d-flex mx-3 align-items-center align-content-center {% if request.path == '/deposit' %}active{% endif %} "> <ion-icon name="cash-outline"></ion-icon> <p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center">Deposit</p></a>
+                    </div>
+                </div>  
+                <div class="nav_link mt-4  mx-2 d-flex">
+                    <div>
+                        <a href="{% url 'services' %} " class=" d-flex mx-3 align-items-center align-content-center {% if request.path == '/services' %}active{% endif %} "><ion-icon name="calculator-outline"></ion-icon> <p class=" m-0 px-2 d-none d-flex  d-sm-block align-items-center">Services</p></a>
+                    </div>
+                </div> 
+                <div class="nav_link mt-4  mx-2 d-flex">
+                    <div>
+                        <a href="{% url 'profile' %}" class=" d-flex mx-3 align-items-center align-content-center {% if request.path == '/profile' %}active{% endif %} "><ion-icon name="person-outline"></ion-icon><p class=" m-0 px-2 d-none d-flex  d-sm-block align-items-center">Profile</p> </a>                        
+                    </div>
+                </div> 
+                <div class="nav_link  mt-4  mx-2 d-flex">
+                    <div>
+                        <a href="{% url 'logout' %}" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="power-outline"></ion-icon> <p class=" m-0 px-2 d-none d-flex  d-sm-block align-items-center">Log Out</p></a>
+                    </div>
+                </div>
+            </nav>
+            {% endblock %}
             {% endif %}
-        {% endblock %}
-    </nav>
-    <div class="body">
-        {% block body %}
-        {% endblock %}
+            
+            {% block body %}
+            {% endblock %}  
+
+            {% block weather %}
+            <div class="col-2">asdad</div>
+            {% endblock %}
     </div>
-    <footer class="footer h-25 mt-3">
-        asdsadas
+
+    <footer class="footer h-25">
+
+        <div class="row  m-2 mt-5">
+            <div class="col-3 justify-content-center">
+                <img src="{% static 'media/1.png' %}" width="200" height="200" alt="">
+            </div>
+            <div class="col-5 justify-content-center">
+                <div class="row-1 mx-3 mt-4 ">
+                    <p class="d-flex justify-content-center" style="font-weight: bolder;">Keep in contact</p>
+                </div>
+                <div class="row-1 mx-2 mt-4 ">
+                    <a href="https://twitter.com/dariojpenna" target="_blank" class=" d-flex mx-3 align-items-center align-content-center "><ion-icon  name="logo-twitter" class="text-primary col-1 text-light"></ion-icon><p class=" m-0 px-2 d-none d-sm-block align-items-center">https://twitter.com/dariojpenna</p></a>
+                </div>
+                <div class="row-1 mx-2 mt-4">
+                    <a href="https://www.facebook.com/dariojosepenna" target="_blank"  class=" d-flex mx-3 align-items-center align-content-center "><ion-icon name="logo-facebook" class="text-primary col-1 text-light" ></ion-icon><p class="  px-2 m-0 d-none d-sm-block align-items-center">https://www.facebook.com/dariojosepenna</p></a>
+                </div>
+                <div class="row-1 m-2 mt-4">
+                    <a href="https://www.instagram.com/dariojpenna/" target="_blank" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="logo-instagram"   class="text-primary col-1 text-light"></ion-icon> <p class="  px-2 m-0 d-none d-sm-block align-items-center">https://www.instagram.com/dariojpenna/</p></a>
+                </div>
+                <div class="col-5"></div>
+            </div>
+            <div class="col-4 justify-content-center">
+                <div class="row-1 mt-4">
+                    <p class="d-flex justify-content-center" style="font-weight: bolder;"> Contact Information</p>
+                </div>
+                <div class="row-1  m-2 mt-4">
+                    <a href="mailto:dariojpenna@hotmail.com " class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="mail-outline" class="text-primary col-1 text-light"></ion-icon> <p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center">dariojpenna@hotmail.com</p></a>
+                </div>
+                <div class="row-1  m-2 mt-4">
+                    <a href="tel:+393519556264" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="call-outline" class="text-primary col-1 text-light" ></ion-icon> <p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center">+393519556264</p></a>
+                </div>
+                <div class="row-1 m-2 mt-4">                   
+                    <a href="https://wa.me/+393519556264?text=¡Estoy+interesado!" class=" d-flex mx-3 align-items-center align-content-center " target="_blank"><ion-icon name="logo-whatsapp" class="text-primary col-1 text-light" ></ion-icon><p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center">+393519556264</p> </a>
+                </div>
+                <div class="row-1  m-2 mt-4">                 
+                    <a rel="nofollow" href="https://maps.google.com/?q=+45.7863543,+12.6980569" class=" d-flex mx-3 align-items-center align-content-center " target="_blank"><ion-icon name="location-outline" class="text-primary col-1 text-light " ></ion-icon><p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center">Enlace de referencia</p></a>
+                </div>
+
+            </div>
+        </div>  
     </footer>
 </body>
 </html>

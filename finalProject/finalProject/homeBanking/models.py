@@ -14,7 +14,7 @@ from django.core.exceptions import ValidationError
 def validate_creditCard(value):
     if len(str(value)) != 3:
         raise ValidationError('The lenght of the cvv number is 3.')
-     
+
 def validate_dni(value):
     if len(str(value)) != 8:
         raise ValidationError('The lenght of the dni number is 8.')
@@ -25,9 +25,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50);
     last_name = models.CharField(max_length=50);
     username = models.CharField(max_length=50,unique=True,);
-    email = models.EmailField(max_length=50);
+    email = models.EmailField(max_length=50,unique=True,);
     phone_number = models.CharField(max_length=50,default="",verbose_name='Phone Number')
-    dni = models.IntegerField(validators=[validate_dni], default=0);
+    dni = models.IntegerField(validators=[validate_dni], default=0,unique=True,);
     
     def __str__(self):
         return f"{self.first_name}: {self.password} {self.last_name}  {self.username} {self.email} {self.phone_number} {self.service}";

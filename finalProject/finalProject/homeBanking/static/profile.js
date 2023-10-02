@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             })
                             .then(response => response.json())
                             .then(data => {
-                                email.innerHTML = data.email
-
+                                email.innerHTML = data.email;
+                                clickOutsideListener(btnForm);
                             })
                             .catch(error => {
                                 console.log('Error al guardar la publicación:', error);
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             .then(response => response.json())
                             .then(data => {
                                 phoneNumber.innerHTML = data.phoneNumber
-    
+                                clickOutsideListener(btnForm);
                             })
                             .catch(error => {
                                 console.log('Error al guardar la publicación:', error);

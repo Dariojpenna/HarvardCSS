@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block body%}
+<div class="col-8">
+    <div class=" w-7 mt-3 m-auto d-flex" id="account-card" onclick="accountPage()">
+        <div class="col-2 card m-4" id="SA">
+            <p class="m-auto fs-1 text-light">SA</p>
+        </div>
+        <div class="col-6 m-auto">
+
+            <p class="m-0 fs-1" style="font-size: 3em;">$ {{account.account_amount}}</pc> 
+            <p class="mb-0"><b>CBU: </b>{{ account.cbu|slice:":1" }} - {{ account.cbu|slice:"1:20" }} - {{ account.cbu|slice:"20:23" }}</p>
+            <p class="mt-0"><b>bank: </b>{{account.bank}}</p>
+        </div>
+
+</div>
+    
+    <table class="table table-borderless w-75 mt-3 m-auto">
+        <thead>
+            <tr class="m-auto">
+                <th scope="col" class="text-center align-middle" >Date</th>
+                <th scope="col" class="text-center align-middle">Description</th>
+                <th scope="col" class="text-center align-middle">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactionsInPage %}
+                <tr>
+                    <td class="text-center align-middle bg-secondary-subtle">
+                        {{transaction.date.date}}
+                    </td>
+                    <td class="text-center align-middle">
+                        {% if transaction.type == 'Debit' %}
+                            {{transaction.account_recipient.owner.username}}
+                        {% else %}
+                            {{transaction.type}}
+                        {% endif %}
+                    </td>
+                    <td class="text-center align-middle bg-secondary-subtle">
+                            {% if transaction.type == "Deposit" %}
+                                $  +{{transaction.transaction_amount}}
+                            {% else %}    
+                                {% if transaction.account_sender == account %}
+                                    $  -{{transaction.transaction_amount}}
+                                {% else %}
+                                    $  +{{transaction.transaction_amount}}
+                                {% endif %}
+                            {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <nav class="nav justify-content-center" aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if transactionsInPage.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{transactionsInPage.previous_page_number}}">Previous</a></li>
+            {% endif %}
+    
+            {% if transactionsInPage.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{transactionsInPage.next_page_number}}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>  
+{% endblock %}

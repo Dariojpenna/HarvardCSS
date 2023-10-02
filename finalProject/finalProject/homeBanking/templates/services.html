@@ -3,40 +3,50 @@
 
 
 {% block body%}
-     <h1>Services</h1>
-
-     <a href="addService" class="btn btn-primary">Add Service</a>
-
-     {% for service in services %}
-          <hr>
-          <div>
-               <div>
-                    {{service.service_name}}
-               </div>
-               <div>
-                    
-                    {% if courrent_date <= service.expiration_date %}
-                        <p >{{service.expiration_date}}</p>
-                    {% else %}  
-                    <p style="color: red;">{{service.expiration_date}}</p>
-                    {% endif %}
-                </div>
-               <div>
-                    {% if service.state == 'Paid' %}
-                        <p style="color: green;">{{service.state}} ✔</p>
-                    {% else %}
-                        <p style="color: red;"> {{service.state}} </p>
-                    {% endif %}
-                </div>
-
-               <div>
-                    <a class="btn btn-primary" href="{% url 'service_detail' id=service.id %}"> View Detail</a>
-               </div>
-
+     <div class="col-8">
+          <h1 class="mt-3">Services</h1>
+          <p>Here you can see and add new services for your administration</p>
+          <div >
+               <a href="addService" class=" btn bg-primary mb-2 mt-2 text-light">Add Service</a>
           </div>
+          {% for service in servicesInPage %}
+               
+               <div class="row d-flex flex-wrap justify-content-between {% if forloop.counter|divisibleby:2 %} bg-secondary-subtle {% endif %}">
+                    <hr>
+                    <div class="col-5">
+                         <div>
+                              <p><b>Service: </b>{{service.service_name}}</p>
+                         </div>
+                         <div>
+                              {% if service.state == 'Paid' %}
+                                   <p style="color: green;">{{service.state}} ✔</p>
+                              {% else %}
+                                   {% if courrent_date <= service.expiration_date %}
+                                        <p ><b>Expiration Date: </b>{{service.expiration_date}}</p>
+                                   {% else %}  
+                                        <p style="color: red;"><b>Expiration Date: </b>{{service.expiration_date}}</p>
+                                   {% endif %}
+                                   <p style="color: red;">{{service.state}} </p>
+                              {% endif %}
+                         </div>
+                    </div>
+                    
+                    <div class="col-5">
+                         <a class="btn btn-primary" href="{% url 'service_detail' id=service.id %}"> View Detail</a>
+                    </div>
+               </div>
+          {% endfor %}
+               <nav class="nav justify-content-center" aria-label="Page navigation example">
+                    <ul class="pagination">
+                         {% if servicesInPage.has_previous %}
+                              <li class="page-item"><a class="page-link" href="?page={{servicesInPage.previous_page_number}}">Previous</a></li>
+                         {% endif %}
+                         {% if servicesInPage.has_next %}
+                              <li class="page-item"><a class="page-link" href="?page={{servicesInPage.next_page_number}}">Next</a></li>
+                         {% endif %}
+                    </ul>
+               </nav>
+     </div>
+     
 
-
-          <hr>
-          
-     {% endfor %}
 {% endblock %}
