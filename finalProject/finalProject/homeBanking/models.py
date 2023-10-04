@@ -91,7 +91,6 @@ class Card(models.Model):
     card_number = models.IntegerField(default=0)
     expiration_date = models.DateField(default=timezone.now)
     choices = [
-        ('Debit', 'Debit'),
         ('Credit', 'Credit'),
     ]
     type = models.CharField(max_length=100,choices=choices)

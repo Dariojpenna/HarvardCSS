@@ -4,7 +4,7 @@
 {% block body%}
      <div class="col-10 col-md-8 px-1">
           <h1 class="mt-3" >Transfer Detail</h1>
-          <div class=" row d-flex rounded-2 mt-5 p-3" id="details_card">
+          <div class=" row d-flex rounded-2 mt-5 p-3 mx-2" id="details_card">
 
                <table class=" table-responsive-sm" >
                     <tr >
@@ -29,7 +29,7 @@
                     </tr>
                </table>
                <div>
-                    <a class="btn btn-primary " id="btn_voucher" href="{% url 'voucher' id=transfer.id %}" target="_blank">Generate voucher</a>
+                    <a class="btn btn-primary mt-5" id="btn_voucher" href="{% url 'voucher' id=transfer.id %}" target="_blank">Generate voucher</a>
                </div>
           </div>
      </div>

@@ -9,9 +9,12 @@
         </div>
         <div class="col-6 m-auto">
             
-            <p class="m-0 fs-1" style="font-size: 3em;">$ {{account.account_amount}}</pc> 
-            <p class="mb-0"><b>CBU: </b>{{ account.cbu|slice:":1" }} - {{ account.cbu|slice:"1:20" }} - {{ account.cbu|slice:"20:23" }}</p>
-            <p class="mt-0"><b>bank: </b>{{account.bank}}</p>
+            <p class="mx-1 m-0 fs-1" style="font-size: 3em;">$ {{account.account_amount}}</pc> 
+            <div class="d-flex flex-wrap">
+                <p class="bank_account mb-0 mx-1" ><b>CBU:   </b></p>
+                <p class="bank_account mb-0 mx-1 ">{{ account.cbu|slice:":1" }}-{{ account.cbu|slice:"1:20" }}-{{ account.cbu|slice:"20:23" }}</p>
+            </div>
+            <p class="bank_account mt-0 mx-1"><b>bank: </b>{{account.bank}}</p>
         </div>
 
 </div>

@@ -401,44 +401,58 @@ def service_detail(request,id):
 
 
 def service_pay(request,id):
+    if request.method == 'POST':
+        if not Service.objects.filter(id=id).exists():
+            services = request.user.service.all().order_by("-state","-id")
+            courrent_date = datetime.now().date()
+            # Make paginator
+            paginator = Paginator(services, 5)
+            pageNumber = request.GET.get('page')
+            servicesInPage = paginator.get_page(pageNumber)
+            # Response
+            return render (request, "services.html",{
+                'services': services,
+                'courrent_date' : courrent_date,
+                'servicesInPage':servicesInPage
+            })
+        else:    
+            # Get data
+            courrent_date = datetime.now().date()
+            account_sender = Account.objects.get(owner = request.user)
+            service = Service.objects.get(id=id)
+            amount = service.amount_service
+            # Check our money
+            if   account_sender.account_amount > amount :
+                    # Create transaction
+                debit = Transaction.objects.create(account_sender= account_sender,
+                                                    account_recipient = service.service_account,
+                                                    transaction_amount = amount,
+                                                    date = datetime.now(),
+                                                    type = 'Debit')
+                debit.save()
+                    # Add transaction to Servive model
+                service.service_transaction = debit
+                service.save()
 
-    # Get data
-    courrent_date = datetime.now().date()
-    account_sender = Account.objects.get(owner = request.user)
-    service = Service.objects.get(id=id)
-    amount = service.amount_service
-    # Check our money
-    if   account_sender.account_amount > amount :
-            # Create transaction
-        debit = Transaction.objects.create(account_sender= account_sender,
-                                            account_recipient = service.service_account,
-                                            transaction_amount = amount,
-                                            date = datetime.now(),
-                                            type = 'Debit')
-        debit.save()
-            # Add transaction to Servive model
-        service.service_transaction = debit
-        service.save()
-
-            # Make a debit
-        account_sender.account_amount = account_sender.account_amount - amount
-        account_sender.save()
-            # Add money to services account
-        service.service_account.account_amount =  service.service_account.account_amount + amount
-        service.service_account.save()
-            # Chanche services state
-        service.state = "Paid"
-        service.paid_date = datetime.now()
-        service.save()
-        #Response with enought money
-        return HttpResponseRedirect(reverse("services"))
-    else:
-        #Response without enought money
-        return render(request, 'serviceDetail.html',{
-        'service':service,
-        'courrent_date' : courrent_date,
-        "message": "You have not enough money",
-    })
+                    # Make a debit
+                account_sender.account_amount = account_sender.account_amount - amount
+                account_sender.save()
+                    # Add money to services account
+                service.service_account.account_amount =  service.service_account.account_amount + amount
+                service.service_account.save()
+                    # Chanche services state
+                service.state = "Paid"
+                service.paid_date = datetime.now()
+                service.save()
+                #Response with enought money
+                return HttpResponseRedirect(reverse("services"))
+            else:
+                #Response without enought money
+                return render(request, 'serviceDetail.html',{
+                'service':service,
+                'courrent_date' : courrent_date,
+                "message": "You have not enough money",
+            })
 
 
 
@@ -512,19 +526,68 @@ def account(request):
     })
 
 def cards(request):
-    cards = Card.objects.filter(owner=request.user)
+    if not Card.objects.filter(owner=request.user).exists():
+        return render(request, 'cards.html')
+    else:
+        card = Card.objects.get(owner=request.user)
+        account = Account.objects.get(owner = request.user)
+        bank = account.bank
+        return render(request, 'cards.html',{
+            'card':card,
+            'bank':bank
+        })
+
+
+def add_card(request):
     account = Account.objects.get(owner = request.user)
     bank = account.bank
-    return render(request, 'cards.html',{
-        'cards':cards,
-        'bank':bank
-    })
+    if request.method == 'POST':
+        if not Card.objects.filter(owner=request.user).exists():
+            courrent_date = datetime.now().date()
+            expiration_date = courrent_date.replace(year=courrent_date.year + 1, month=12, day=1)
+            new_Card = Card.objects.create(owner = request.user,
+                                        cvv= random.randint(100, 999),
+                                        card_number = randonCardNumber(),
+                                        expiration_date=expiration_date,
+                                        type = 'Credit'
+                                        )
+            new_Card.save()
 
-def addCard(request):
-    pass
+            return render(request,'cards.html',{
+                'card': new_Card,
+                'bank':bank
+            })
+        
+        else:
+            card = Card.objects.get(owner=request.user)
+            return render(request,'cards.html',{
+                'card': card,
+                'bank':bank,
+                'message': 'You can only have one Credit Car '
+            })
 
-def deleteCard(request):
-    pass
+def randonCardNumber():
+    number = ""
+    for _ in range(4):
+        digit = random.randint(1000, 9999)
+        number += str(digit)
+    return number
+
+def delete_card(request,id):
+    if request.method == 'POST':
+        if not Card.objects.filter(owner=request.user).exists():
+            return render(request, 'cards.html',{
+                'message': 'Your dont have a Credit Card '
+            })
+        else:
+            card = Card.objects.get(id = id)
+            card.delete()
+            
+            return render(request, 'cards.html',{
+                'message': 'Your card was removed successfully '
+            })
+            
+    
 
 
 

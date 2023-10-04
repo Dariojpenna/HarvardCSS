@@ -28,9 +28,6 @@ a:hover{
     -o-border-radius: 5px;
 }
 
-.icon{
-    font-size: 50;
-}
 
 
 /* Transfer CSS */
@@ -166,8 +163,8 @@ input{
 }
 
 @media (max-width: 768px) {
-    td,th,.btn {
-        font-size: 0.6rem; /* Cambiar el tamaño de fuente para pantallas pequeñas */
+    td,th,.btn,.bank_account {
+        font-size: 0.7rem; /* Cambiar el tamaño de fuente para pantallas pequeñas */
     }
 }
 
@@ -182,9 +179,16 @@ input{
     box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Aumentar la intensidad de la sombra al pasar el mouse */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     #debit_card {
         width: 100% !important; /* Cambiar el tamaño de fuente para pantallas pequeñas */
         margin-right: 2rem;
+        margin-left: 2rem;
+    }
+}
+
+@media (max-width: 575px) {
+    ion-icon {
+        font-size: 30px;
     }
 }

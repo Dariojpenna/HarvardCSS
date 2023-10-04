@@ -46,7 +46,9 @@
             <div class="nav_link mt-5 mx-2 d-flex ">
                 <div >
                     <a href="{% url 'index' %}" class=" d-flex mx-3 align-items-center align-content-center {% if request.path == '/' %}active{% endif %}"> <ion-icon name="home-outline"></ion-icon>  <p class=" m-0 px-2 d-none d-flex -block d-sm-block align-items-center" > Home</p></a> 
+
                 </div>
+                
             </div>
             <div class="nav_link mt-4 mx-2 d-flex">
                 <div>
@@ -88,7 +90,7 @@
 
         {% endblock %}  
     </div>
-
+    
     <footer class="footer   flex-wrap">
 
         <div class="row d-flex flex-wrap  m-2 mt-5">
@@ -102,13 +104,13 @@
                     <p class="d-flex justify-content-center" style="font-weight: bolder;">Keep in contact</p>
                 </div>
                 <div class="row-1 mx-2 mt-4 ">
-                    <a href="https://twitter.com/dariojpenna" target="_blank" class=" d-flex mx-3 align-items-center align-content-center "><ion-icon  name="logo-twitter" class="icon text-primary col-1 text-light"></ion-icon><p class=" m-0 px-2 d-none d-md-block align-items-center">https://twitter.com/dariojpenna</p></a>
+                    <a href="https://twitter.com/dariojpenna" target="_blank" class=" d-flex mx-3 align-items-center align-content-center "><ion-icon  name="logo-twitter" class=" text-light"></ion-icon><p class=" m-0 px-2 d-none d-md-block align-items-center">https://twitter.com/dariojpenna</p></a>
                 </div>
                 <div class="row-1 mx-2 mt-4">
-                    <a href="https://www.facebook.com/dariojosepenna" target="_blank"  class=" d-flex mx-3 align-items-center align-content-center "><ion-icon name="logo-facebook" class="icon text-primary col-1 text-light" ></ion-icon><p class="  px-2 m-0 d-none d-md-block align-items-center">https://www.facebook.com/dariojosepenna</p></a>
+                    <a href="https://www.facebook.com/dariojosepenna" target="_blank"  class=" d-flex mx-3 align-items-center align-content-center "><ion-icon name="logo-facebook" class="text-light " ></ion-icon><p class="  px-2 m-0 d-none d-md-block align-items-center">https://www.facebook.com/dariojosepenna</p></a>
                 </div>
                 <div class="row-1 m-2 mt-4">
-                    <a href="https://www.instagram.com/dariojpenna/" target="_blank" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="logo-instagram"   class="icon text-primary col-1 text-light"></ion-icon> <p class="  px-2 m-0 d-none d-md-block align-items-center">https://www.instagram.com/dariojpenna/</p></a>
+                    <a href="https://www.instagram.com/dariojpenna/" target="_blank" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="logo-instagram"   class="text-light"></ion-icon> <p class="  px-2 m-0 d-none d-md-block align-items-center">https://www.instagram.com/dariojpenna/</p></a>
                 </div>
                 <div class="col-5"></div>
             </div>
@@ -117,20 +119,21 @@
                     <p class="d-flex justify-content-center" style="font-weight: bolder;"> Contact Information</p>
                 </div>
                 <div class="row-1  m-2 mt-4">
-                    <a href="mailto:dariojpenna@hotmail.com " class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="mail-outline" class="icon text-primary col-1 text-light"></ion-icon> <p class=" m-0 px-2 d-none d-flex -block d-md-block align-items-center">dariojpenna@hotmail.com</p></a>
+                    <a href="mailto:dariojpenna@hotmail.com " class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="mail-outline" class="text-light"></ion-icon> <p class=" m-0 px-2 d-none d-flex -block d-md-block align-items-center">dariojpenna@hotmail.com</p></a>
                 </div>
                 <div class="row-1  m-2 mt-4">
-                    <a href="tel:+393519556264" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="call-outline" class="icon text-primary col-1 text-light" ></ion-icon> <p class=" m-0 px-2 d-none d-flex  d-md-block align-items-center">+393519556264</p></a>
+                    <a href="tel:+393519556264" class=" d-flex mx-3 align-items-center align-content-center "> <ion-icon name="call-outline" class="text-light" ></ion-icon> <p class=" m-0 px-2 d-none d-flex  d-md-block align-items-center">+393519556264</p></a>
                 </div>
                 <div class="row-1 m-2 mt-4">                   
-                    <a href="https://wa.me/+393519556264?text=¡Estoy+interesado!" class=" d-flex mx-3 align-items-center align-content-center " target="_blank"><ion-icon name="logo-whatsapp" class=" icon text-primary col-1 text-light" ></ion-icon><p class=" m-0 px-2 d-none d-flex  d-md-block align-items-center">+393519556264</p> </a>
+                    <a href="https://wa.me/+393519556264?text=¡Estoy+interesado!" class=" d-flex mx-3 align-items-center align-content-center " target="_blank"><ion-icon name="logo-whatsapp" class="text-light" ></ion-icon><p class=" m-0 px-2 d-none d-flex  d-md-block align-items-center">+393519556264</p> </a>
                 </div>
                 <div class="row-1  m-2 mt-4">                 
-                    <a rel="nofollow" href="https://maps.google.com/?q=+45.7863543,+12.6980569" class=" d-flex mx-3 align-items-center align-content-center " target="_blank"><ion-icon name="location-outline" class="icon text-primary col-1 text-light " ></ion-icon><p class=" m-0 px-2 d-none d-flex  d-md-block align-items-center">Enlace de referencia</p></a>
+                    <a rel="nofollow" href="https://maps.google.com/?q=+45.7863543,+12.6980569" class=" d-flex mx-3 align-items-center align-content-center " target="_blank"><ion-icon name="location-outline" class="text-light " id="ref_icon" ></ion-icon><p class=" m-0 px-2 d-none d-flex  d-md-block align-items-center">Enlace de referencia</p></a>
                 </div>
 
             </div>
         </div>  
     </footer>
+    
 </body>
 </html>

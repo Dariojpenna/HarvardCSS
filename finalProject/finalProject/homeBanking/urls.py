@@ -26,7 +26,7 @@ urlpatterns = [
     path('reset_password/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset_password/complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('cards',views.cards,name='cards'),
-    path('addCard', views.addCard,name='addCard'),
-    path('deleteCard', views.deleteCard,name='deleteCard'),
+    path('add_card', views.add_card,name='add_card'),
+    path('delete_card/<int:id>', views.delete_card,name='delete_card'),
 
 ]

@@ -7,7 +7,7 @@
         <h1>Welcome!!!</h1>
         <p>We care about you</p>
         <hr>
-        <form action="{% url 'login' %}" method="post" class="login_form w-75">
+        <form action="{% url 'login' %}" id="login_form" method="post" class="login_form w-75">
             {% csrf_token %}
             <div class="form-group mt-3">
                 <input autofocus class="form-control" id="dni" type="text" name="document" maxlength="8"
@@ -26,7 +26,7 @@
                 <p class="text-bg-warning">{{message}}</p>
                 {% endif %}
             </div>
-            <div id="virtual-keyboard" class="d-flex flex-wrap p-3">
+            <div id="virtual-keyboard" class="p-3">
 
             </div>
         </form>
