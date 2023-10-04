@@ -1,15 +1,14 @@
 {% extends "layout.html" %}
 {% load static %}
 
-
 {% block body%}
-<div class="col-8">
+<div class="col-10 col-md-8 px-1">
     <div class=" w-7 mt-3 m-auto d-flex" id="account-card" onclick="accountPage()">
         <div class="col-2 card m-4" id="SA">
             <p class="m-auto fs-1 text-light">SA</p>
         </div>
         <div class="col-6 m-auto">
-
+            
             <p class="m-0 fs-1" style="font-size: 3em;">$ {{account.account_amount}}</pc> 
             <p class="mb-0"><b>CBU: </b>{{ account.cbu|slice:":1" }} - {{ account.cbu|slice:"1:20" }} - {{ account.cbu|slice:"20:23" }}</p>
             <p class="mt-0"><b>bank: </b>{{account.bank}}</p>

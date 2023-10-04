@@ -1,52 +1,52 @@
 {% extends "layout.html" %}
 {% load static %}
 
+{% block body %}
 
+    <div class="login col-10 col-sm-4 m-auto m-3 p-5">
+        <h1>Welcome!!!</h1>
+        <p>We care about you</p>
+        <hr>
+        <form action="{% url 'login' %}" method="post" class="login_form w-75">
+            {% csrf_token %}
+            <div class="form-group mt-3">
+                <input autofocus class="form-control" id="dni" type="text" name="document" maxlength="8"
+                    inputmode="numeric" pattern="[0-9]+" placeholder="DNI" required>
+            </div>
+            <div class="form-group mt-3">
+                <input autofocus class="form-control" id="user" type="text" name="username" placeholder="Username"
+                    required>
+            </div>
+            <div class="form-group mt-3">
+                <input class="form-control" id="pass" type="password" name="password" placeholder="Password" required>
+            </div>
+            <input class="btn btn-primary mt-3 mb-3" type="submit" value="Login">
+            <div>
+                {% if message %}
+                <p class="text-bg-warning">{{message}}</p>
+                {% endif %}
+            </div>
+            <div id="virtual-keyboard" class="d-flex flex-wrap p-3">
 
-{% block body%}
-
-    <div class="d-flex">
-        <div class="login col-4 w-25 m-auto mt-3 " >
-            <h1>Welcome!!! </h1>
-
-            <p>We care about you</p>
-            <hr>
-            <form action="{% url 'login' %}" method="post" class="login_form w-75">
-                {% csrf_token %}
-                <div class="form-group mt-3 ">
-                    <input autofocus class="form-control" onclick="configureVirtualKeyboard()" id="input1" type="text" name="document" maxlength="8" inputmode="numeric" pattern="[0-9]+" placeholder="DNI" required >
-                </div>
-                <div class="form-group mt-3">
-                    <input autofocus class="form-control" onclick="configureVirtualKeyboard()" id="input2" type="text" name="username" placeholder="Username" required>
-                </div>
-                <div class="form-group mt-3">
-                    <input class="form-control" id="input3" onclick="configureVirtualKeyboard()" type="password" name="password" placeholder="Password"  autocomplete="off" required>
-                </div>
-                <input class="btn btn-primary mt-3 mb-3" type="submit" value="Login">
-                <div>
-                    {% if message %}
-                        <p class="text-bg-warning">{{message}}</p>
-                    {% endif %}
-                </div>
-                <div id="virtual-keyboard">
-
-                </div>
-            </form>
-            <a href="{% url 'register' %}" class="register_link ">If you're not a user please register</a>
-            <p  id="terms">
-                Operating with Online Banking implies accepting the terms and conditions in which the service is offered. 
-                <br>
-                <br>
-                Security information. Go to Office Banking
-            </p>
-        </div>
-        <div class="col-lg-8 m-0 p-0" id="img_login" ></div>
+            </div>
+        </form>
+        <a href="{% url 'register' %}" class="register_link">If you're not a user please register</a>
+        <br>
+        <a href="{% url 'password_reset' %}" class="register_link">Forgot your password?</a>
+        <p id="terms">
+            Operating with Online Banking implies accepting the terms and conditions in which the service is offered.
+            <br>
+            <br>
+            Security information. Go to Office Banking
+        </p>
     </div>
+    <div class="col-8 m-0 p-0 d-none d-sm-block" id="img_login">
 
+    </div>
 {% endblock %}
 
 {% block script %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'virtualKeyboard.js' %}"></script>
+    <script  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 {% endblock %}
-

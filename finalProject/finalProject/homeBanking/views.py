@@ -35,12 +35,10 @@ def index(request):
     if request.user.is_authenticated:
         account = Account.objects.get(owner=request.user)
         transactions = Transaction.objects.order_by('-id')[:5]
-        card = Card.objects.filter(owner=request.user)
         # Response with user authenticated
         return render(request, "index.html",{
             "user":request.user,
             "account": account,
-            'card': card,
             'transactions':transactions
         })
     # Response with user  not authenticated
@@ -101,7 +99,6 @@ def switch(cbu):
         bank="Voyager_Bancorp_Bank"
     return bank
 
-#//TODO: Corroborar que el documento y el nick no existan
 def  register(request):
     if request.method == "POST":
         first_name = request.POST['first_name']
@@ -126,7 +123,7 @@ def  register(request):
                                             bank=bank)
             account.save()
         except IntegrityError:
-            return render(request, "network/aaasd.html", {
+            return render(request, "register.html", {
                 "message": "Username or Document already exist."
             })
         login(request, user)
@@ -514,7 +511,20 @@ def account(request):
         'transactionsInPage':transactionsInPage
     })
 
+def cards(request):
+    cards = Card.objects.filter(owner=request.user)
+    account = Account.objects.get(owner = request.user)
+    bank = account.bank
+    return render(request, 'cards.html',{
+        'cards':cards,
+        'bank':bank
+    })
 
+def addCard(request):
+    pass
+
+def deleteCard(request):
+    pass
 
 
 

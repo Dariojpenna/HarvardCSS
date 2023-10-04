@@ -5,11 +5,11 @@
 
 
 {% block body%}
-    <div class="col-8">
+    <div class="col-10 col-md-8 px-1">
         <h1 class="mt-3">Service Detail</h1>
         <div  class=" row d-flex rounded-2 mt-5 p-3" id="details_card">
 
-            <table class="table" >
+            <table class="table-responsive" >
                 <tr >
                     <th class="text-center align-middle">
                         SERVICE NAME
@@ -52,11 +52,11 @@
         </table>
         {% if service.state == 'Paid' %}
             <div>
-                <a class="btn btn-primary" href="{% url 'voucher' id=service.service_transaction.id %}" target="_blank">Generate voucher</a>
+                <a class="btn btn-primary" id="btn_voucher" href="{% url 'voucher' id=service.service_transaction.id %}" target="_blank">Generate voucher</a>
             </div>
         {% else %}
             <div>
-                <a href="{% url 'service_pay' id=service.id  %}" class="btn btn-primary">Pay</a>
+                <a href="{% url 'service_pay' id=service.id  %}" id="btn_pay" class="btn btn-primary">Pay</a>
             </div>
         {% endif %}
         </div>

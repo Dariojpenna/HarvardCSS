@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body%}
-<div class="col-8 ">
+<div class="col-10 col-md-8">
      <div>
           <h3 class="fs-1 mt-3">Home Banking app</h3>
      </div>
@@ -27,28 +27,6 @@
 
      </div>
      <hr>
-     {% if card %}
-          <div class="card d-flex w-25 m-2" id="debit_card">
-               <div>
-                    {{card.owner.first_name}}
-               </div>
-               <div>
-                    {{card.card_number}}
-               </div>
-               <div>
-                    {{card.expiration_date}}
-               </div>
-               <div>
-                    {{card.type}}
-               </div>
-
-          </div>
-          <div>
-               <button class="btn btn-primary">Ask for new Card</button>
-               <button class="btn btn-primary">Delete Service Card</button>
-          </div>
-          
-     {% endif %}
      
      <table class="table table-borderless w-75 m-auto">
           <thead>

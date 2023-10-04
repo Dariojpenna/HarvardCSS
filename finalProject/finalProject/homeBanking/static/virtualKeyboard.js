@@ -1,44 +1,52 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const virtualKeyboard = document.getElementById('virtual-keyboard');
 
-    document.getElementById('input1').addEventListener('click', () => {
-        configureVirtualKeyboard('input1');
+    document.getElementById('dni').addEventListener('click', () => {
+        configureVirtualKeyboard('dni');
     });
     
-    document.getElementById('input2').addEventListener('click', () => {
-        configureVirtualKeyboard('input2');
+    document.getElementById('user').addEventListener('click', () => {
+        configureVirtualKeyboard('user');
     });
     
-    document.getElementById('input3').addEventListener('click', () => {
-        configureVirtualKeyboard('input3');
+    document.getElementById('pass').addEventListener('click', () => {
+        configureVirtualKeyboard('pass');
     });
-    
-    
-           
-    
 
+    document.addEventListener('click', (event) => {
+        if (virtualKeyboard.style.display === 'block' && !virtualKeyboard.contains(event.target)) {
 
-
+            virtualKeyboard.style.display = 'none';
+        }
+    });
     
 })
 
 function configureVirtualKeyboard(inputId) {
     if (document.getElementById('virtual-keyboard')) {
         const virtualKeyboard = document.getElementById('virtual-keyboard');
-        /* Falta ocultar el teclado y ver porque se duplica*/
-    }
+        virtualKeyboard.style.display= "block"
 
-    const virtualKeyboard = document.getElementById('virtual-keyboard');
+    }
     const currentInput = document.getElementById(inputId);
+    const virtualKeyboard = document.getElementById('virtual-keyboard');
     
-    const keyboardLayout = ['1','2','3','4','5','6','7','8','9','0','Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P','A','S','D','F','G','H','J','K','L','Ñ','Z','X','C','V','B','N','M'];
+    virtualKeyboard.innerHTML = '';
+    
+    const keyboardLayout = ['1','2','3','4','5','6','7','8','9','0','Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P','A','S','D','F','G','H','J','K','L','Ñ','Z','X','C','V','B','N','M','Space','Del'];
 
     keyboardLayout.forEach(letter => {
         const key = document.createElement('div');
-        
         key.classList.add('key');
         key.textContent = letter;
         key.addEventListener('click', () => {
-            textInput.value += letter;
+            if (letter === 'Space') {
+                currentInput.value += ' ';
+            } else if (letter === 'Del') {
+                currentInput.value = currentInput.value.slice(0, -1);
+            } else {
+                currentInput.value += letter;
+            }
         });
         virtualKeyboard.appendChild(key);
     });

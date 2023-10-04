@@ -28,6 +28,12 @@ a:hover{
     -o-border-radius: 5px;
 }
 
+.icon{
+    font-size: 50;
+}
+
+
+/* Transfer CSS */
 .modal{
     position: fixed;
     border: 2px;
@@ -78,7 +84,7 @@ a:hover{
     background-size: contain; 
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    height: 40rem;
+    background-color: brown;
 
 }
 
@@ -91,16 +97,20 @@ a:hover{
 }
 
 /* virtual-keyboard*/
+
+
 #virtual-keyboard {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr); /* Configura el número de columnas y su tamaño */
-    gap: 5px; /* Espacio entre las teclas */
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(10, auto); /* Esto hará que las columnas se ajusten automáticamente al contenido */
+    grid-gap: 5px;
     padding: 10px;
+    border-radius: 5px;
 }
 
 .key {
-    width: 15px;
-    height: 15px;
+    width: 30px;
+    height: 20px;
     text-align: center;
     background-color: #ccc;
     border: 1px solid #999;
@@ -153,4 +163,28 @@ input{
 #details_card{
     background: linear-gradient(90deg, rgb(160, 191, 245) 43%, rgb(176, 184, 193) 100%);
     box-shadow: 10px 10px #e9e6e6;
+}
+
+@media (max-width: 768px) {
+    td,th,.btn {
+        font-size: 0.6rem; /* Cambiar el tamaño de fuente para pantallas pequeñas */
+    }
+}
+
+#debit_card{
+    width: 50%;
+    background: linear-gradient(90deg, rgb(160, 191, 245) 43%, rgb(176, 184, 193) 100%);
+    box-shadow: 0 0 10px rgba(108, 160, 211, 0.5); /* Sombra celeste */
+    transition: box-shadow 0.3s; 
+}
+
+#debit_card:hover {
+    box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Aumentar la intensidad de la sombra al pasar el mouse */
+}
+
+@media (max-width: 768px) {
+    #debit_card {
+        width: 100% !important; /* Cambiar el tamaño de fuente para pantallas pequeñas */
+        margin-right: 2rem;
+    }
 }

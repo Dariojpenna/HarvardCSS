@@ -5,10 +5,10 @@
 
 {% block body%}
 
-    <div class="col-8">
-      <h1 class="mt-3">Services</h1>
+    <div class="col-10 col-md-8 mt-5 px-1" id="account-card">
+      <h1 class=" mt-3" >Services</h1>
 
-      <form method="post" action="{% url 'addService' %}">
+      <form method="post" action="{% url 'addService' %}" >
           {% csrf_token %}
           <label for="user_enterprise">Select your user_enterprise:</label>
           <select id="user_enterprise" name="selected_user">
@@ -16,7 +16,7 @@
               <option value="{{ user_enterprise.id }}">{{ user_enterprise.username }}</option>
             {% endfor %}
           </select>
-          <input type="submit" value="Select">
+          <input class="btn btn-primary" type="submit" value="Select">
         </form>
       </div>
 

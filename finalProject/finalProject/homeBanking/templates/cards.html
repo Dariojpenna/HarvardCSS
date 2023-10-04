@@ -1,0 +1,50 @@
+
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block body%}
+    <div class="col-10 col-md-8 mt-5 px-1">
+        <h1>Creadit Card</h1>
+        <div class="mt-4">
+            {% if cards %}
+            <div class="card d-flex  m-2 p-3" id="debit_card">
+                {% for card in cards %}
+                    <div>
+                        <b>{{bank}}</b>
+                    </div>
+                    <div class="d-flex flex-wrap mt-2 mb-2 justify-content-center fs-4">
+                        <p class="mb-0 text-light" >{{ card.card_number|stringformat:"s"|slice:":4" }}  {{ card.card_number|stringformat:"s"|slice:"4:8" }}  {{ card.card_number|stringformat:"s"|slice:"8:12" }}   {{ card.card_number|stringformat:"s"|slice:"12:16" }}</p>
+                    </div>
+                    <div class="d-flex">
+                        <div class="d-flex">
+                            <p  class="mb-0" id="card_exp_date"> <b>Exp: </b> </p> <p  class="mb-0">{{card.expiration_date|date:"m"}}</p>/ <p  class="mb-0">{{card.expiration_date|date:"y"}}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex">
+                            <p class="mb-0">{{card.owner.first_name}}  {{card.owner.last_name}}</p>
+                        </div>
+                        <div class="d-flex ">
+                            <p class="mb-0"><b>{{card.type}}</b></p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="d-flex flex-wrap justify-content-end">
+                <button class="btn btn-primary mx-2">Ask for new Card</button>
+                <button class="btn btn-primary">Delete Service Card</button>
+            </div>
+            
+        {% endif %}
+            <h5>You don't have this service rigth know</h5>
+            <div>
+                <button class="btn btn-primary mx-2">Ask for new Card</button>
+            </div>
+        
+        </div>
+    </div>
+    
+
+{% endblock %}
