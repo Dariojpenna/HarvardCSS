@@ -88,6 +88,8 @@ function that gives the name to the variable and returns the variable already as
 contact. Also an icon on the project tabs to make it a little more enjoyable.
 -It should be noted that the deposit function was used as a way of entering money as a salary and to prove
 -The super user has the possibility to change, add or modify any model or feature
+-A digital credit card was also added which is just something decorative
+
 
 -Technologies Used:
 Django: Framework for building web applications.
