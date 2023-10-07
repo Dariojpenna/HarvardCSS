@@ -86,6 +86,8 @@ without the need to pass the account object to it. For this we create a file cal
 function that gives the name to the variable and returns the variable already assigned to use it in any template, also changes according to the user. 
 -Icons were also added with social networks using ionicons and also with a js file (index) indicating the location as of 
 contact. Also an icon on the project tabs to make it a little more enjoyable.
+-It should be noted that the deposit function was used as a way of entering money as a salary and to prove
+-The super user has the possibility to change, add or modify any model or feature
 
 -Technologies Used:
 Django: Framework for building web applications.
