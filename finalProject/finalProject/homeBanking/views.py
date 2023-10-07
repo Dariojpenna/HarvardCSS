@@ -258,18 +258,18 @@ def transfer(request):
         }) 
     
 # Create a global variable for generate de code in a function, after that we can check it in another 
-codigo_generado = None
+code_generated = None
 
 def code_generator(request):
     # Stamp global code
-    global codigo_generado
+    global code_generated
     code = random.randint(10000, 99999) 
-    codigo_generado = code
+    code_generated = code
     # Here we need a TWILIO account data
     if request.method =='POST':
         
-        account_sid = '**************'
-        auth_token = '**************'
+        account_sid = '****************'
+        auth_token = '*******************'
         client = Client(account_sid, auth_token)
         # Create de mssge
         message = client.messages \
@@ -280,14 +280,15 @@ def code_generator(request):
                         )
 
         print(message.sid)
-    return JsonResponse({"mensaje": "Código generado con éxito."})
+    return JsonResponse({"message": "Code ganerated succefull."})
 
 
 def code_checker(request):
     # Get code for verification
-    codigo = request.POST.get('codigo')
+    code = request.POST.get('code')
+    print(code)
     # Check code
-    if int(codigo) == codigo_generado:
+    if int(code) == code_generated:
         return JsonResponse({"message": "1"})
     else:
         return JsonResponse({"message": "2"})

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             inputForm.setAttribute("type", "email");
-           
+            
             inputForm.id = "email_input"
 
             btnForm.textContent = "Send"
@@ -117,9 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                 }
             )}
-                   
-            
-            
+
             clickOutsideListener = function (event) {
                 if (!email_field.contains(event.target) & (!phoneField.contains(event.target))) {
                     
@@ -136,12 +134,9 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(function () {
                 document.addEventListener("click", clickOutsideListener);
             }, 50);
-
         })
     });
-
 })
-
 
 function validateEmail(email) {
     var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

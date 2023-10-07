@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 const notificationCount = data.count;
                 const notificationBadge = document.getElementById('notification-count');
                 
-                // Actualiza el contador en la interfaz de usuario
+                // Counter update
                 if (notificationCount > 0) {
                     notificationBadge.innerHTML = notificationCount;
                     notificationBadge.style.display = 'block';
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
             
     }
     
-    // Llama a la función para actualizar el contador al cargar la página
+    // Call update function
     window.addEventListener('load', updateNotificationCount);
 
 })

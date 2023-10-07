@@ -30,8 +30,6 @@ urlpatterns = [
     path('cards',views.cards,name='cards'),
     path('add_card', views.add_card,name='add_card'),
     path('delete_card/<int:id>', views.delete_card,name='delete_card'),
-
-    #-----BORRA
     path('notifications',views.notifications, name='notifications'),
     path('get_unread_notifications/', views.get_unread_notifications, name='get_unread_notifications'),
 
@@ -39,4 +37,4 @@ urlpatterns = [
 
 
 
-check_services_and_transactions(repeat=20, repeat_until=None)
+check_services_and_transactions(repeat=60, repeat_until=None)

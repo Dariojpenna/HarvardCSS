@@ -1,5 +1,4 @@
 from .models import Account
-from django.contrib.auth.models import AbstractUser
 
 def global_variable(request):
     if request.user.is_authenticated:
