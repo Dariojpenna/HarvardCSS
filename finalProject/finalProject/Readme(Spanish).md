@@ -99,6 +99,7 @@ funcion que da el nombre a la variable y nos devuelve la variable ya asignada pa
 contacto. Tambien un icono en las pestañas del proyecto para hacerlo un poco mas agradable.
 --Cabe destacar que se utilizo la funcion deposito como manera de ingresar dinero a modo sueldo y para probar
 --El super Usuario tiene posibilidad de cambiar, agregar o modificar cualquier modelo o caracteristica
+--Se agrego tambien una tarjeta de credito digital que es solo algo decorativo
 
 -Technologies Used:
 Django: Framework for building web applications.
