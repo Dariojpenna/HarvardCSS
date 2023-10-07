@@ -236,7 +236,7 @@ def transfer(request):
                 "message": "The Transfer was made correctly",
                 "user":request.user,
                 "account": account_sender,
-                'transactions_index':transactions_index
+                'transactions':transactions_index
 
             })
         # If we don0t have money
@@ -268,8 +268,8 @@ def code_generator(request):
     # Here we need a TWILIO account data
     if request.method =='POST':
         
-        account_sid = '****************'
-        auth_token = '*******************'
+        account_sid = 'ACc490100ed731e11e5232ab16b0716ab8'
+        auth_token = 'a311122b9836dd10f7732846caa14d34'
         client = Client(account_sid, auth_token)
         # Create de mssge
         message = client.messages \
