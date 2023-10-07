@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from .forms import UserForm
-from .models import User, Transaction,Account,Card,Service
+from .models import User, Transaction,Account,Card,Service,Notification
 from django.db import IntegrityError
 import random
 from django.db.models import Q
@@ -42,8 +42,7 @@ def index(request):
             'transactions':transactions
         })
     # Response with user  not authenticated
-    return render(request, 'login.html',{
-    })
+    return render(request, 'login.html')
     
 
 
@@ -100,7 +99,9 @@ def switch(cbu):
     return bank
 
 def  register(request):
+    #Check Method
     if request.method == "POST":
+        #Get Data 
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         dni = request.POST['document']
@@ -110,12 +111,14 @@ def  register(request):
         password = request.POST['password'] 
         cbu =  random.randrange(10**21, 10**22)
         bank= switch(cbu)
+        #Password confirm and get user 
         if password != request.POST['password-confirm']:
             return render(request, 'register.html',{
                 'message':"Passwords must match."
             })
 
         try:
+            #Creat account
             user = User.objects.create_user(first_name=first_name,last_name=last_name,dni=dni,username=username,email=email,phone_number=phone, password=password)
             user.save()
             account= Account.objects.create(owner = user,
@@ -264,7 +267,9 @@ def code_generator(request):
     codigo_generado = code
     # Here we need a TWILIO account data
     if request.method =='POST':
-
+        
+        account_sid = '**************'
+        auth_token = '**************'
         client = Client(account_sid, auth_token)
         # Create de mssge
         message = client.messages \
@@ -537,10 +542,10 @@ def cards(request):
             'bank':bank
         })
 
-
 def add_card(request):
     account = Account.objects.get(owner = request.user)
     bank = account.bank
+    #Create a credit card
     if request.method == 'POST':
         if not Card.objects.filter(owner=request.user).exists():
             courrent_date = datetime.now().date()
@@ -557,7 +562,6 @@ def add_card(request):
                 'card': new_Card,
                 'bank':bank
             })
-        
         else:
             card = Card.objects.get(owner=request.user)
             return render(request,'cards.html',{
@@ -565,6 +569,7 @@ def add_card(request):
                 'bank':bank,
                 'message': 'You can only have one Credit Car '
             })
+
 
 def randonCardNumber():
     number = ""
@@ -587,7 +592,27 @@ def delete_card(request,id):
                 'message': 'Your card was removed successfully '
             })
             
-    
 
+def notifications (request):
+    #Get all user notification
+    notifications = Notification.objects.filter(recipient=request.user)
+    # Paginator
+    paginator = Paginator(notifications, 8)
+    pageNumber = request.GET.get('page')
+    notificationsInPage = paginator.get_page(pageNumber)
+    #Change status to read
+    for notification in notifications:
+        notification.read = True
+        notification.save()
 
+    return render(request,'notifications.html',{
+        'notificationsInPage':notificationsInPage
+    })
 
+def get_unread_notifications(request):
+    #get arrived notifications
+    if request.user.is_authenticated:
+        unread_notifications = Notification.objects.filter(recipient=request.user, read=False)
+        count = unread_notifications.count()
+        return JsonResponse({'count': count})
+    return JsonResponse({'count': 0})

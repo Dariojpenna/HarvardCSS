@@ -1,6 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .tasks import check_services_and_transactions  # Importa la tarea de notificación
+
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -29,4 +31,12 @@ urlpatterns = [
     path('add_card', views.add_card,name='add_card'),
     path('delete_card/<int:id>', views.delete_card,name='delete_card'),
 
+    #-----BORRA
+    path('notifications',views.notifications, name='notifications'),
+    path('get_unread_notifications/', views.get_unread_notifications, name='get_unread_notifications'),
+
 ]
+
+
+
+check_services_and_transactions(repeat=20, repeat_until=None)

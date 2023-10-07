@@ -1,14 +1,10 @@
+
+from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-
-
-from django.db import models
-
-from django.contrib.auth.models import AbstractUser,Group, Permission
-from django.db import models
 from django.core.exceptions import ValidationError
-
+from background_task import background
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from datetime import timedelta
 
 
 def validate_creditCard(value):
@@ -58,12 +54,16 @@ class Transaction(models.Model):
     account_recipient = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="recipent_account",default=None)
     transaction_amount = models.DecimalField(decimal_places=3,max_digits=10)
     date = models.DateTimeField(auto_now=True)
+    notification_sent = models.BooleanField(default=False)
     choices = [
         ('Debit', 'Debit'),
         ('Transfer', 'Transfer'),
         ('Deposit', 'Deposit'),
     ]
     type = models.CharField( choices=choices,max_length=30)
+
+    def get_sender_representation(self):
+        return f"{self.account_sender.owner.first_name} {self.account_sender.owner.last_name}"
 
     def __str__(self):
         return f"{self.transaction_amount}: {self.date}, {self.type}"
@@ -96,7 +96,14 @@ class Card(models.Model):
     type = models.CharField(max_length=100,choices=choices)
     
     def __str__(self):
-        return f"{self.owner}: {self.cvv}, {self.type}"
+        return f"{self.owner}: {self.cvv}, {self.type} {self.expiration_date} {self.card_number}"
     
+class Notification(models.Model):
+    date = models.DateTimeField(default=timezone.now)
+    content = models.TextField()  # Message content
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications') # The receiver of the notification
+    read = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{self.content} to {self.recipient.username} {self.read} "
 
-    

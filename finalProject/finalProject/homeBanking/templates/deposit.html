@@ -5,7 +5,6 @@
 {% block body%}
     <div class="col-10 col-md-8 px-1">
         <h1 class="mt-3"> Make your deposit</h1>
-        
         <p>chooses the amount</p>
         <form class="form" action="{% url 'deposit' %} " method="post">
             {% csrf_token %}

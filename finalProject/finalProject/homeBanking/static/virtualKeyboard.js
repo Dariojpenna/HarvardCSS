@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         updateKeyboardCase();
-        s
+        
     }
 
     function updateKeyboardCase() {
