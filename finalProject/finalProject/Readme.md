@@ -1,103 +1,91 @@
-Distinctiveness and Complexity
+istinctiveness and Complexity
 
-Este trabajo realizado simula una aplicacion de homebanking web.
+This work simulates a web homebanking application.
 
-El proyecto se hizo tratando de cumplir todos los requisitos que pedia el proyecto final. 
+The project was made trying to meet all the requirements that pediatrics the final project.
 
-Distintividad y Complejidad
-El proyecto de Gestión de Banca en Línea satisface los requisitos de distinción y complejidad por varias razones:
+Distinctiveness and Complexity The Online Banking Management project meets the requirements of distinction and complexity for several reasons:
 
-*Interfaz de Usuario Amigable:
-Hemos desarrollado una interfaz de usuario intuitiva y fácil de usar que permite a los usuarios gestionar sus cuentas,
-realizar transferencias y pagar servicios de manera eficiente.
-Tambien se logro una interfaz correcta para dispositivos moviles, y ademas se agrego un teclado virtual para poder ser utilizado en 
-caso de ser necesario para ello usamos css, bs y js.
+*User Friendly Interface: We have developed an intuitive and user-friendly user interface that allows users to manage their accounts, make transfers and pay for services efficiently. It also achieved a correct interface for mobile devices, and also added a virtual keyboard to be used if necessary for this we use css, bs and js.
 
-*Seguridad: 
-Implementamos medidas de seguridad robustas, como autenticación de usuarios, password encriptadas para garantizar que 
-los datos de los usuarios estén protegidos. 
-Se utilizo el sistema de recuperacion de password de django y se modifico la funcion PasswordResetCompleteView en la redireccion de pagina
-Para las alerta via sms se utilizo una app de Twilio 8.5.0 en conjunto con django. Cave destacar que el codigo enviado no tiene los datos 
-de mi cuenta personal de twilio por lo que si desean usar la funcion, deben ingresar los datos de una cuenta personal. La mia era gratuita
-por lo que solo mandaba mensajes al numero de telefono asociado a la misma. 
+*Security: We implement robust security measures, such as user authentication, encrypted passwords to ensure that user data is protected. The django password recovery system was used and the PasswordResetCompleteView function was modified in the page redirection For alerts via sms an app of Twilio 8.5.0 was used in conjunction with django. Cave note that the code sent does not have the data of my personal twilio account so if you want to use the function, you must enter the data of a personal account. Mine was free so I only sent messages to the phone number associated with it.
 
+*Real Time Notifications:
+We incorporate a real-time notification system that informs users about transactions, service expirations and 
+other important events. 
+This was achieved using django background_task, a task.py file was created where the function that makes the notifications was defined,
+when sending them and using a separate terminal, process_tasks are executed so that they run in real time.
+In the case of service expirations, the dates must be manually modified, since when the services are created 
+gives you a date on the 10th of the next month,simulating a real service. The function calling task is check_services_and_transactions 
+which is in the urls.py file
 
-*Notificaciones en Tiempo Real:
-Incorporamos un sistema de notificaciones en tiempo real que informa a los usuarios sobre transacciones, vencimientos de servicios y 
-otros eventos importantes. 
-Esto se logro utilizando background_task de django, se creo un archivo task.py donde se definio la funcion que realiza las notificaciones,
-cuando enviarlas y usando una terminal separada se ejecuta process_tasks para que las mismas se ejecuten en tiempo real.
-En el caso de los vencimientos de los servicio se deben modificar manualmente las fechas, ya que cuando se crean los servicios se 
-le da una fecha al dia 10 del proximo mes,simulando un servicio real. La funcion que llama a task es check_services_and_transactions 
-que se encuentra en el archivo urls.py
+*Management of Accounts and Services:
+Superusers can create and manage multiple accounts and services, increasing the versatility and utility of the application.
+The common user must generate the log through the lin in the home page, must create user, enter first name, last name, dni, mail,
+phone and password 2 times. These data are mandatory as they are all used for both notifications and alerts. 
+Each user adds a service previously created to simulate electricity, water and gas companies as an example. 
+The amount generated is random and the due date is created for the 10th day of the following month. It remains in a state 
+pending for uqe after the user can pay it. To pay it, it is confirmed that the user actually has enough money in the account. 
+Each service has a page where you can see the detail and you can pay. Once paid a pdf can be generated as proof.
+The user can also modify their email and phone number if necessary. This is done through a fetch call with js 
+so that the data can be reflected at the time.
 
-*Gestión de Cuentas y Servicios:
-Los superusuarios pueden crear y administrar múltiples cuentas y servicios, lo que aumenta la versatilidad y la utilidad de la aplicación.
-El usuario comun debe generar el registro a travez del lin en la pag de inicio, debe crear usuario, ingresar nombre, apellido, dni, mail y
-telefono y password 2 veces. Estos datos son obligatorios ya que todos se utilizan tanto para notificaciones como alertas. 
-Cada usuario agrega un servicio previamente creado para simular empresas de luz, agua y gas a modo de ejemplo. 
-El monto generado es aleatorio y la fecha de vencimiento se crea para el dia 10 del mes siguiente. La misma queda en un estado 
-pendiente para uqe despues el usuario pueda pagarlo. Para pagarlo se corrobora que efectivaamente el usuario tenga el dinero suficiente en la cuenta. 
-Cada servicio tiene una pagina donde se ve el detalle y se puede pagar. Una vez pago se puede generar un pdf como comprobante.
-El usuario tambien puede modificar su email y su numero de telefono en caso de ser necesario. Esto se realiza a travez de una llamada fetch con js 
-para que los datos se puedan reflejar en el momento.
+*Real Time Information: 
+We provide users with up-to-date information about their balances and transactions, improving transparency and visibility of their financial activities.
 
-*Información en Tiempo Real: 
-Proporcionamos a los usuarios información actualizada sobre sus saldos y transacciones, lo que mejora la transparencia y la visibilidad de sus actividades financieras.
+*Transfers :
+The app allows users to make money transfers to other accounts and pay online services, which adds a layer
+additional functionality and comfort. The transfer system has as mentioned above a security plus with the verification via sms
+and also the notification system via email. The system via sms consists of entering the amount to transfer and the destination account.
+JS is used for a modal window in which the button was placed to generate the numeric code with a function in the views file, 
+alli the code is saved in a global variable to then be able to be recovered by another function that, through a fetch request compares it
+with the number entered by the user. If correct, the button to generate code disappears and the transfer button appears instead. Each 
+transfer also has a page where you can see in more detail the information of the same. Cave highlight that here also added a boton 
+of proof that generates a pdf. 
 
-*Transferencias :
-La aplicación permite a los usuarios realizar transferencias de dinero a otras cuentas y pagar servicios en línea, lo que agrega una capa
-adicional de funcionalidad y comodidad. El sistema de transferencias tiene como mencinamos anteriormente un plus de seguridad con la verificacion via sms
-y ademas el sistema de notificacion via email. El sistema via sms consiste en ingresar el monto a transferir y la cuenta destino.
-Se utiliza JS para a una ventana modal en la que se coloco el boton para generar el codigo  numerico con una funcion  en el archivo views, 
-alli se guarda el codigo en una variable global para luego poder ser recuperada por otra funcion que, atravez de un pedido fetch la compara
-con el numero ingresado por el usuario. Si es correcto el boton de generar codigo desaparece y aparece en su lugar el boton transferir. Cada 
-trasferencia tambien tiene una pagina donde se puede ver con mas detalle la informacion de la misma. Cave destacar que aqui tambien se agrego un boton 
-de comprobante que genera un pdf. 
+*Supporting documents:
+For the creation of the proof we detail the steps 
+-Creation of the PDF Template:
+First, a PDF template is created using ReportLab. This template includes static elements such as headers, 
+bank logos and dynamic fields for transaction details such as date, amount and 
+the names of the parties involved.
+-Dynamic Content Generation:
+When a user requests a PDF voucher, transaction details are collected from the database.
+This includes information such as transaction date, amount, accounts involved and other relevant details.
+-Combination of Data and Template:
+Using ReportLab, dynamic data is combined with the PDF template. Dynamic field values are set in the
+template to reflect the details of the specific transaction.
+-Generation of the final PDF: 
+Once the data and template have been combined, the final PDF is generated using ReportLab.This creates a PDF file 
+containing the transaction voucher.
+-Download of the PDF: 
+The newly generated PDF is offered to the user as a download. The user can click a link or button on the
+web interface to download the voucher in PDF. This is to make it a little more real.
 
-*Comprobantes:
-Para la creacion edel comprobante  detallamos los pasos 
---Creación de la Plantilla PDF:
-En primer lugar, se crea una plantilla PDF utilizando ReportLab. Esta plantilla incluye elementos estáticos como encabezados, 
-logotipos de la entidad bancaria y campos dinámicos para los detalles de la transacción, como la fecha, el monto y 
-los nombres de las partes involucradas.
---Generación de Contenido Dinámico:
-Cuando un usuario solicita un voucher en PDF, se recopilan los detalles de la transacción desde la base de datos.
-Esto incluye información como la fecha de la transacción, el monto, las cuentas involucradas y otros detalles relevantes.
---Combinación de Datos y Plantilla:
-Utilizando ReportLab, los datos dinámicos se combinan con la plantilla PDF. Se establecen los valores de los campos dinámicos en la
-plantilla para reflejar los detalles de la transacción específica.
---Generación del PDF Final: 
-Una vez que se han combinado los datos y la plantilla, se genera el PDF final utilizando ReportLab.Esto crea un archivo PDF 
-que contiene el voucher de la transacción.
---Descarga del PDF: 
-El PDF recién generado se ofrece al usuario como una descarga. El usuario puede hacer clic en un enlace o un botón en la
-interfaz web para descargar el voucher en PDF. Esto es para hacerlo un poco mas real.
+*Notifications by Email:
+-Collection of data:
+When an event occurs that requires email notification (for example, a successful deposit),
+relevant data about that event is collected. This could include details such as the email address of the 
+recipient, the type of event and any additional information related to the event.
+-Generation of E-mail:
+Using the django.core.mail library, an email containing the notification message is created. 
+This includes email subject and message content, which is usually generated dynamically to include 
+specific information about the event.
+-Sending of the E-mail: 
+The email is sent to the recipient using the send_mail() function provided by Django.
+This function requires the subject, message content, sender email address and 
+email address of the recipient.
+-Receipt of the Notification:
+The recipient receives the notification in their email box and can read the message to get information about the event that occurred in the application.
+In addition to in-app notifications, we also send email notifications to users to keep them
+informed about their transactions and accounts.
 
-*Notificaciones por Correo Electrónico:
---Recopilación de Datos:
-Cuando ocurre un evento que requiere una notificación por correo electrónico (por ejemplo, un depósito exitoso),
-se recopilan los datos relevantes sobre ese evento. Esto podría incluir detalles como la dirección de correo electrónico del 
-destinatario, el tipo de evento y cualquier información adicional relacionada con el evento.
---Generación del Correo Electrónico:
-Utilizando la biblioteca django.core.mail, se crea un correo electrónico que contiene el mensaje de notificación. 
-Esto incluye el asunto del correo electrónico y el contenido del mensaje, que generalmente se genera dinámicamente para incluir 
-información específica sobre el evento.
---Envío del Correo Electrónico: 
-El correo electrónico se envía al destinatario utilizando la función send_mail() proporcionada por Django.
-Esta función requiere el asunto, el contenido del mensaje, la dirección de correo electrónico del remitente y la 
-dirección de correo electrónico del destinatario.
---Recepción de la Notificación:
-El destinatario recibe la notificación en su buzón de correo electrónico y puede leer el mensaje para obtener información sobre el evento que ocurrió en la aplicación.
-Además de las notificaciones en la aplicación, también enviamos notificaciones por correo electrónico a los usuarios para mantenerlos
-informados sobre sus transacciones y cuentas.
-
-*Otras Caracteristicas:
--- Cabe destacar en mi caso particular el uso de la variable global para utilizar la variable account bannk en todas las paginas 
-sin la necesidad de pasar  el objeto account a la misma. Para ello creamos un archivo llamado global_variable.py donde definimos la 
-funcion que da el nombre a la variable y nos devuelve la variable ya asignada para usarla en cualquier plantilla, ademas cambia segun el usuario. 
---Tambien se agregaron iconos con las redes sociales usando ionicons y tambien con un archivo js (index) que indica la ubicacion como de 
-contacto. Tambien un icono en las pestañas del proyecto para hacerlo un poco mas agradable.
+*Other Features:
+-- It is worth highlighting in my particular case the use of the global variable to use the bannk account variable on all pages 
+without the need to pass the account object to it. For this we create a file called global_variable.py where we define the 
+function that gives the name to the variable and returns the variable already assigned to use it in any template, also changes according to the user. 
+-Icons were also added with social networks using ionicons and also with a js file (index) indicating the location as of 
+contact. Also an icon on the project tabs to make it a little more enjoyable.
 
 -Technologies Used:
 Django: Framework for building web applications.
@@ -107,19 +95,19 @@ JavaScript: Used for enhancing user interactions.
 SQLite: The default database system provided by Django for data storage.
 Twilio API: Integrated for sending real-time notifications via SMS.
 ReportLab: Used to generate PDF vouchers for transactions.
-Django's authentication system: Ensures secure user account management.
+Django’s authentication system: Ensures secure user account management.
 
-Ejecución de la Aplicación
-Para ejecutar la aplicación, sigue estos pasos:
-Clone este repositorio: git clone https://github.com/Dariojpenna/HarvardCSS.git
-Navega al directorio del proyecto: cd HarvardCSS/finalProject
-Instala las dependencias: pip install -r requirements.txt
-Aplica las migraciones: python manage.py migrate
-Crea un superusuario: python manage.py createsuperuser
-Inicia el servidor: python manage.py runserver
+Implementation
+To run the application, follow these steps:
+Clone this repository: git clone https://github.com/Dariojpenna/HarvardCSS.git
+Navigate to the project directory: cd HarvardCSS/finalProject
+Installs dependencies: pip install -r requirements.txt
+Apply migrations: python manage.py migrate
+Create a superuser: python manage.py createsuperuser
+Start server: python manage.py runserver
 
--Documentación Completa:
-Este README.md proporciona una documentación completa del proyecto, incluyendo detalles sobre cómo ejecutar la aplicación, qué archivos se crearon y más.
+-Complete documentation:
+This README.md provides complete project documentation, including details on how to run the application, what files were created and more.
 
-La intension del proyecto es hacerlo lo mas real posible y para ello tuve que indagar bastante en el tema de seguridad, claves,contraseñas, 
-notificaciones y alertas de Django. La verdad aprendi mucho por lo cual quiero agradecerle a la fundacion EDX y Hardvard por la oportunidad
+The intension of the project is to make it as real as possible and for this I had to do a lot of research on the issue of security, keys, notifications and alerts from Django. The truth learned a lot so I want to thank the EDX and Hardvard foundation for the opportunity
+
