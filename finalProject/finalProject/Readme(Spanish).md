@@ -19,16 +19,13 @@ caso de ser necesario para ello usamos css, bs y js.
 Implementamos medidas de seguridad robustas, como autenticación de usuarios, password encriptadas para garantizar que 
 los datos de los usuarios estén protegidos. 
 Se utilizo el sistema de recuperacion de password de django y se modifico la funcion PasswordResetCompleteView en la redireccion de pagina
-Para las alerta via sms se utilizo una app de Twilio 8.5.0 en conjunto con django. Cave destacar que el codigo enviado no tiene los datos 
-de mi cuenta personal de twilio por lo que si desean usar la funcion, deben ingresar los datos de una cuenta personal. La mia era gratuita
-por lo que solo mandaba mensajes al numero de telefono asociado a la misma. 
+Para las alerta via sms se utilizo una app de Twilio 8.5.0 en conjunto con django. Cave destacar que el codigo enviado no tiene los datos de mi cuenta personal de twilio por lo que si desean usar la funcion, deben ingresar los datos de una cuenta personal. La mia era gratuita por lo que solo mandaba mensajes al numero de telefono asociado a la misma. 
 
 
 *Notificaciones en Tiempo Real:
 Incorporamos un sistema de notificaciones en tiempo real que informa a los usuarios sobre transacciones, vencimientos de servicios y 
 otros eventos importantes. 
-Esto se logro utilizando background_task de django, se creo un archivo task.py donde se definio la funcion que realiza las notificaciones,
-cuando enviarlas y usando una terminal separada se ejecuta process_tasks para que las mismas se ejecuten en tiempo real.
+Esto se logro utilizando background_task de django, se creo un archivo task.py donde se definio la funcion que realiza las notificaciones, cuando enviarlas y usando una terminal separada se ejecuta process_tasks para que las mismas se ejecuten en tiempo real.
 En el caso de los vencimientos de los servicio se deben modificar manualmente las fechas, ya que cuando se crean los servicios se 
 le da una fecha al dia 10 del proximo mes,simulando un servicio real. La funcion que llama a task es check_services_and_transactions 
 que se encuentra en el archivo urls.py
@@ -100,6 +97,8 @@ sin la necesidad de pasar  el objeto account a la misma. Para ello creamos un ar
 funcion que da el nombre a la variable y nos devuelve la variable ya asignada para usarla en cualquier plantilla, ademas cambia segun el usuario. 
 --Tambien se agregaron iconos con las redes sociales usando ionicons y tambien con un archivo js (index) que indica la ubicacion como de 
 contacto. Tambien un icono en las pestañas del proyecto para hacerlo un poco mas agradable.
+--Cabe destacar que se utilizo la funcion deposito como manera de ingresar dinero a modo sueldo y para probar
+--El super Usuario tiene posibilidad de cambiar, agregar o modificar cualquier modelo o caracteristica
 
 -Technologies Used:
 Django: Framework for building web applications.
