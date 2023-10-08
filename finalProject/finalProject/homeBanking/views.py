@@ -34,17 +34,18 @@ def index(request):
     #Check authentification
     if request.user.is_authenticated:
         try:
-            account = Account.objects.get(id=request.user)
-        except:    
-            logout(request)
-            return redirect('logout')
-        transactions = Transaction.objects.order_by('-id')[:5]
-        # Response with user authenticated
-        return render(request, "index.html",{
+            account = Account.objects.get(owner=request.user)
+            transactions = Transaction.objects.order_by('-id')[:5]
+            # Response with user authenticated
+            return render(request, "index.html",{
             "user":request.user,
             "account": account,
             'transactions':transactions
         })
+        except:    
+            logout(request)
+            return redirect('logout')
+        
     # Response with user  not authenticated
     return render(request, 'login.html')
     
