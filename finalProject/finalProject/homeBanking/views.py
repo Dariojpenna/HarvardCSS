@@ -3,7 +3,7 @@ from io import BytesIO
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import UserForm
 from .models import User, Transaction,Account,Card,Service,Notification
@@ -33,7 +33,11 @@ from reportlab.lib.units import inch
 def index(request):
     #Check authentification
     if request.user.is_authenticated:
-        account = Account.objects.get(owner=request.user)
+        try:
+            account = Account.objects.get(id=request.user)
+        except:    
+            logout(request)
+            return redirect('logout')
         transactions = Transaction.objects.order_by('-id')[:5]
         # Response with user authenticated
         return render(request, "index.html",{
