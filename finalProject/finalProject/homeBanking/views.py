@@ -274,7 +274,7 @@ def code_generator(request):
     if request.method =='POST':
         
         account_sid = 'ACc490100ed731e11e5232ab16b0716ab8'
-        auth_token = 'a311122b9836dd10f7732846caa14d34'
+        auth_token = '9278d903277e4d2dda52b9bb1b30edab'
         client = Client(account_sid, auth_token)
         # Create de mssge
         message = client.messages \

@@ -1,10 +1,11 @@
 from .models import Account
 
 def global_variable(request):
+    account_bank=""
     if request.user.is_authenticated:
         print(request.user.id)
         try:
-            account = Account.objects.get(id=request.user.id)
+            account = Account.objects.get(owner=request.user)
             account_bank = account.bank
         except:
             account_bank =None
