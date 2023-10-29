@@ -35,7 +35,7 @@ def index(request):
     if request.user.is_authenticated:
         try:
             account = Account.objects.get(owner=request.user)
-            transactions = Transaction.objects.order_by('-id')[:5]
+            transactions = Transaction.objects.filter(account_sender = account).order_by('-id')[:5]
             # Response with user authenticated
             return render(request, "index.html",{
             "user":request.user,
@@ -168,6 +168,13 @@ def deposit(request):
         account.save()
         #Send a email
         send_mail(subject, message, from_email, recipient_list)
+
+
+        notification = Notification(content ="Your deposit was made correctly",
+                                        recipient = request.user,
+                                        read = False )
+        notification.save()
+
         # Response
         return render(request, "index.html",{
             "message": "The deposit was made correctly",
@@ -235,7 +242,10 @@ def transfer(request):
 
             send_mail(subject, message, from_email, recipient_list)
 
-    
+            notification = Notification(content ="Your Transfer was made correctly",
+                                        recipient = request.user,
+                                        read = False )
+            notification.save()
         
             return render(request, "index.html",{
                 "message": "The Transfer was made correctly",
