@@ -2,7 +2,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from background_task import background
+""" from background_task import background """
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from datetime import timedelta
 

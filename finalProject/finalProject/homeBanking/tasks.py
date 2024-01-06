@@ -1,4 +1,4 @@
-from background_task import background
+""" from background_task import background
 from django.utils import timezone
 from datetime import timedelta
 from .models import Service, Transaction, Notification
@@ -23,3 +23,4 @@ def check_services_and_transactions():
         
         transaction.notification_sent = True
         transaction.save()
+ """

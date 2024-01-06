@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .tasks import check_services_and_transactions  # Importa la tarea de notificación
+""" from .tasks import check_services_and_transactions  # Importa la tarea de notificación """
 
 
 urlpatterns = [
@@ -37,4 +37,4 @@ urlpatterns = [
 
 
 
-check_services_and_transactions(repeat=60, repeat_until=None)
+""" check_services_and_transactions(repeat=60, repeat_until=None) """
