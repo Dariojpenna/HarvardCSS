@@ -63,11 +63,13 @@
 </li>
 <div>
 <div>
-    <form action="{% url 'offer' id=product.id %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="offer" placeholder="Make an offer" id="">
-        <button class="btn btn-outline-danger">Bid</button>
-    </form>
+    {% if user.is_authenticated %}
+        <form action="{% url 'offer' id=product.id %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="offer" placeholder="Make an offer" id="">
+            <button class="btn btn-outline-danger">Bid</button>
+        </form>
+    {% endif %}
 </div>
     <h3>Comments</h3>
 </div>
