@@ -1,0 +1,231 @@
+/*Layout CSS*/
+
+footer, header{
+    background: rgb(146, 182, 239);
+    background: linear-gradient(90deg, rgb(160, 191, 245) 43%, rgba(51,130,203,1) 100%);
+
+}
+.btn{
+    box-shadow: 5px 5px #cbc7c7 ;
+}
+nav{
+    border: 10px black;
+}
+a{
+    color: rgb(14, 13, 13);
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+a:hover{
+    color: gray;
+}
+
+.active{
+    background: rgb(146, 182, 239);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+
+
+/* Transfer CSS */
+.modal{
+    position: fixed;
+    border: 2px;
+    z-index: 1;
+    display: none;
+    left: 25%;
+    width: 50%;
+    height: auto;
+    overflow: auto;
+    background-color: rgba(177, 39, 39, 0.5);
+    animation: animatetop;
+    animation-duration: 1s;
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+
+.modal-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 100px;
+    height: 50%;
+}
+
+#transfer-button{
+    display: none;
+}
+
+.modal-close{
+    display: flex;
+    justify-content: end;
+    position: relative;;
+    width: 100%;
+}
+
+#error-msge{
+    display: none;
+}
+
+/* LOGIN CSS  */
+
+#img_login{
+    background-image: url('/static/media/sky.png');
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: brown;
+
+}
+
+.register_link{
+    color: blue;
+}
+
+.login{
+    margin: auto;
+}
+
+/* virtual-keyboard*/
+
+
+#virtual-keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(10, auto); /* Esto hará que las columnas se ajusten automáticamente al contenido */
+    grid-gap: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.key {
+    width: 30px;
+    height: 20px;
+    text-align: center;
+    background-color: #ccc;
+    border: 1px solid #999;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+#terms{
+    font-size:smaller;
+;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 4rem;
+}
+
+/*INDEX CSS*/
+
+#account-card{
+    cursor: pointer;
+    height: 150px;
+    border: 1px grey;
+    border-radius: 10px;
+    background-color: #efeded;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+#SA{
+    background-color:rgb(146, 182, 239) ;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.date_joined{
+    color: gray;
+    font-size: 13px;
+}
+
+input{
+    border: none !important; 
+    border-bottom: 1px solid #000 !important;
+    outline: none !important;
+    text-align: center;
+}
+
+/*PROFILE CSS*/
+#details_card{
+    background: linear-gradient(90deg, rgb(177, 223, 107) 43%, rgb(157, 215, 70) 100%);
+    box-shadow: 10px 10px #e9e6e6;
+}
+
+@media (max-width: 768px) {
+    td,th,.btn,.bank_account {
+        font-size: 0.7rem; /* Cambiar el tamaño de fuente para pantallas pequeñas */
+    }
+}
+
+#debit_card{
+    width: 50%;
+    background: linear-gradient(90deg, rgb(177, 223, 107) 43%, rgb(157, 215, 70) 100%);
+    box-shadow: 0 0 10px rgba(108, 160, 211, 0.5); /* Sombra celeste */
+    transition: box-shadow 0.3s; 
+}
+
+#debit_card:hover {
+    box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Aumentar la intensidad de la sombra al pasar el mouse */
+}
+
+@media (max-width: 700px) {
+    #debit_card {
+        width: 100% !important; /* Cambiar el tamaño de fuente para pantallas pequeñas */
+        margin-right: 2rem;
+        margin-left: 2rem;
+    }
+}
+
+@media (max-width: 575px) {
+    ion-icon {
+        font-size: 30px;
+    }
+}
+
+.notification-icon {
+    margin-top: 10px;
+    margin-right: 0;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(157, 215, 70); /* Color de fondo rojo para la campanita */
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 24px;
+    color: #fff; /* Color de texto blanco */
+    cursor: pointer;
+}
+
+.notification-count {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(212, 18, 18); /* Color de fondo azul para el contador */
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    color: #fff; /* Color de texto blanco para el contador */
+}
