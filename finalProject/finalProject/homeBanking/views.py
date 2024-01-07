@@ -28,6 +28,7 @@ from reportlab.lib import colors
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from reportlab.lib.units import inch
+import vonage
 
 
 def index(request):
@@ -280,22 +281,48 @@ def code_generator(request):
     global code_generated
     code = random.randint(10000, 99999) 
     code_generated = code
+    print(code)
     # Here we need a TWILIO account data
     if request.method =='POST':
-        
-        account_sid = 'ACc490100ed731e11e5232ab16b0716ab8'
-        auth_token = '9278d903277e4d2dda52b9bb1b30edab'
-        client = Client(account_sid, auth_token)
-        # Create de mssge
-        message = client.messages \
-                        .create(
-                            body= code,
-                            from_='+17622494206',
-                            to='+393519556264'
-                        )
+        # Config con twilio
 
-        print(message.sid)
-    return JsonResponse({"message": "Code ganerated succefull."})
+        """  account_sid = 'ACc490100ed731e11e5232ab16b0716ab8'
+            auth_token = '9278d903277e4d2dda52b9bb1b30edab'
+            client = Client(account_sid, auth_token)
+            # Create de mssge
+            message = client.messages \
+                            .create(
+                                body= code,
+                                from_='+17622494206',
+                                to='+393519556264'
+                            )
+
+            print(message.sid)
+        return JsonResponse({"message": "Code ganerated succefull."}) """
+        
+        # Config con Vonage because have much destinations number
+
+        phone_number = request.user.phone_number
+        new_phone_number = phone_number.replace("+", "")
+        print (new_phone_number)
+        # Envía un mensaje de verificación al número de teléfono utilizando la API de Vonage
+        try:
+            client = vonage.Client(key="0c597e4c", secret="4o1oHvRMVqWZv7d5")
+            sms = vonage.Sms(client)
+            message_verification = 'Tu código de verificación es: ' + str(code_generated)
+
+            responseData = sms.send_message(
+                {
+                    "from": "Vonage APIs",
+                    "to": str(new_phone_number),
+                    "text": message_verification,
+                }
+            )
+
+        except Exception as e:
+            print(f"Error al enviar el mensaje: {e}")
+            # Manejo de la excepción, puedes imprimir el error para ver qué está sucediendo
+        return JsonResponse({"message": "Código generado exitosamente."})
 
 
 def code_checker(request):

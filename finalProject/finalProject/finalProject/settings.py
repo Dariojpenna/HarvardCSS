@@ -157,3 +157,5 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'mydjangoapp88@gmail.com'
 EMAIL_HOST_PASSWORD = 'fqgibmpsmebyjfyv'
 
+NEXMO_API_KEY = '0c597e4c'
+NEXMO_API_SECRET = '4o1oHvRMVqWZv7d5'
